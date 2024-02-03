@@ -2,10 +2,15 @@ package guidomasi.Final.Project.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import guidomasi.Final.Project.enums.Gender;
+import guidomasi.Final.Project.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,7 +21,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @ToString
 @Table(name = "patients")
-public class Patient {
+public class Patient implements UserDetails {
     @Id
     @GeneratedValue
     @Setter(AccessLevel.NONE)
@@ -30,6 +35,7 @@ public class Patient {
     private Gender gender;
     private String profilePictureUrl;
     private LocalDate registrationDate;
+    private Role role;
     @OneToMany(mappedBy = "patient")
     private List<ExercisesAssignment> exercisesAssignments;
     @JsonIgnore
@@ -41,4 +47,33 @@ public class Patient {
             inverseJoinColumns = @JoinColumn(name = "physiotherapist_id"))
     private List<Physiotherapist> physiotherapists;
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(this.role.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
