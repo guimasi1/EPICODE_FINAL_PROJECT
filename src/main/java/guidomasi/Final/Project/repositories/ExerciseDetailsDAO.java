@@ -4,7 +4,10 @@ import guidomasi.Final.Project.entities.ExerciseDetails;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.text.html.Option;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface ExerciseDetailsDAO extends JpaRepository<ExerciseDetails, UUID> {}
+public interface ExerciseDetailsDAO extends JpaRepository<ExerciseDetails, UUID> {
+}

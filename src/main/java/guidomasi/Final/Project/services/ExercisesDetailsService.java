@@ -1,6 +1,7 @@
 package guidomasi.Final.Project.services;
 
 import guidomasi.Final.Project.entities.ExerciseDetails;
+import guidomasi.Final.Project.exceptions.NotFoundException;
 import guidomasi.Final.Project.payloads.exerciseDetails.ExerciseDetailsDTO;
 import guidomasi.Final.Project.repositories.ExerciseDetailsDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class ExercisesDetailsService {
@@ -24,6 +27,11 @@ public class ExercisesDetailsService {
         exerciseDetails.setReps(body.reps());
         exerciseDetails.setSets(body.sets());
         return exerciseDetailsDAO.save(exerciseDetails);
+    }
+
+    public ExerciseDetails findById(UUID id) {
+        return exerciseDetailsDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
+
     }
 
 }
