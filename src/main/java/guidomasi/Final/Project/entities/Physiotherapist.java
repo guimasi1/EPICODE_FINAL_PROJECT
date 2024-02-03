@@ -1,6 +1,8 @@
 package guidomasi.Final.Project.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import guidomasi.Final.Project.enums.Role;
 import guidomasi.Final.Project.enums.Specialization;
 import jakarta.persistence.*;
@@ -22,6 +24,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @ToString
 @Table(name = "physiotherapists")
+@JsonIgnoreProperties({"password", "authorities", "enabled", "credentialsNonExpired", "accountNonExpired", "accountNonLocked"})
 public class Physiotherapist implements UserDetails {
     @Id
     @GeneratedValue
@@ -49,6 +52,8 @@ public class Physiotherapist implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "patient_id"))
     private List<Patient> patients;
     @OneToMany(mappedBy = "assignedBy")
+    @JsonManagedReference
+    @ToString.Exclude
     private List<ExercisesAssignment> exercisesAssignments;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

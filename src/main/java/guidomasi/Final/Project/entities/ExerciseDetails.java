@@ -1,5 +1,6 @@
 package guidomasi.Final.Project.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,6 +25,7 @@ public class ExerciseDetails {
     private Exercise exercise;
     @ManyToOne
     @JoinColumn(name = "assignment_id")
+
     private ExercisesAssignment exercisesAssignment;
 
 

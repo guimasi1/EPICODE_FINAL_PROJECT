@@ -1,5 +1,7 @@
 package guidomasi.Final.Project.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import guidomasi.Final.Project.enums.AssignmentStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,8 +31,10 @@ public class ExercisesAssignment {
     private List<ExerciseDetails> exerciseDetails;
     @ManyToOne
     @JoinColumn(name = "patient_id")
+    @JsonBackReference
     private Patient patient;
     @ManyToOne
     @JoinColumn(name = ("physiotherapist_id"))
+    @JsonBackReference
     private Physiotherapist assignedBy;
 }

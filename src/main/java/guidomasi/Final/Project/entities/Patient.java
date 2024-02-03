@@ -1,6 +1,8 @@
 package guidomasi.Final.Project.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import guidomasi.Final.Project.enums.Gender;
 import guidomasi.Final.Project.enums.Role;
 import jakarta.persistence.*;
@@ -21,6 +23,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @ToString
 @Table(name = "patients")
+@JsonIgnoreProperties({"password", "authorities", "enabled", "credentialsNonExpired", "accountNonExpired", "accountNonLocked"})
 public class Patient implements UserDetails {
     @Id
     @GeneratedValue
@@ -37,6 +40,8 @@ public class Patient implements UserDetails {
     private LocalDate registrationDate;
     private Role role;
     @OneToMany(mappedBy = "patient")
+    @ToString.Exclude
+    @JsonManagedReference
     private List<ExercisesAssignment> exercisesAssignments;
     @JsonIgnore
     @ToString.Exclude
