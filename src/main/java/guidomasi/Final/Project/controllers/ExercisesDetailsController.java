@@ -1,10 +1,10 @@
 package guidomasi.Final.Project.controllers;
 
-import guidomasi.Final.Project.entities.Exercise;
+import guidomasi.Final.Project.entities.ExerciseDetails;
 import guidomasi.Final.Project.exceptions.BadRequestException;
-import guidomasi.Final.Project.payloads.exercise.ExerciseResponseDTO;
-import guidomasi.Final.Project.payloads.exercise.NewExerciseDTO;
-import guidomasi.Final.Project.services.ExercisesService;
+import guidomasi.Final.Project.payloads.exerciseDetails.ExerciseDetailsDTO;
+import guidomasi.Final.Project.payloads.exerciseDetails.ExercisesDetailsResponseDTO;
+import guidomasi.Final.Project.services.ExercisesDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -13,30 +13,30 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/exercises")
-public class ExercisesController {
+@RequestMapping("/api/exercisesDetails")
+public class ExercisesDetailsController {
 
     @Autowired
-    ExercisesService exercisesService;
+    ExercisesDetailsService exercisesDetailsService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ExerciseResponseDTO create(@RequestBody @Validated NewExerciseDTO exercise, BindingResult validation) {
+    public ExercisesDetailsResponseDTO create(@RequestBody @Validated ExerciseDetailsDTO exerciseDetails, BindingResult validation) {
         if(validation.hasErrors()) {
             System.out.println(validation.getAllErrors());
             throw new BadRequestException("Something is wrong in the payload.");
         } else {
-            Exercise newExercise = exercisesService.saveExercise(exercise);
-            return new ExerciseResponseDTO(newExercise.getId());
+            ExerciseDetails newExerciseDetails = exercisesDetailsService.save(exerciseDetails);
+            return new ExercisesDetailsResponseDTO(newExerciseDetails.getId());
         }
     }
 
     @GetMapping
-    public Page<Exercise> getExercises(
+    public Page<ExerciseDetails> getExercises(
 
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String id) {
-        return exercisesService.getExercises(page,size,id);
+        return exercisesDetailsService.getExercisesDetails(page,size,id);
     }
 }

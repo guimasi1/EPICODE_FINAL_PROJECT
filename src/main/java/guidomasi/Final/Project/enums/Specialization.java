@@ -4,6 +4,7 @@ public enum Specialization {
     CARDIOLOGY,
     ORTHOPEDICS,
     PNEUMOLOGY,
-    PEDIATRIC
+    PEDIATRIC,
+    NEUROLOGY
 
 }

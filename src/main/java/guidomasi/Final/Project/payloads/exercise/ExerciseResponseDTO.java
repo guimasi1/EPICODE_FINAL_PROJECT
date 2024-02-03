@@ -1,4 +1,4 @@
-package guidomasi.Final.Project.payloads;
+package guidomasi.Final.Project.payloads.exercise;
 
 import java.util.UUID;
 

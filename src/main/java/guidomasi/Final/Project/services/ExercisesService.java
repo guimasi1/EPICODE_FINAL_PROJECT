@@ -2,21 +2,15 @@ package guidomasi.Final.Project.services;
 
 import guidomasi.Final.Project.entities.Exercise;
 import guidomasi.Final.Project.enums.DifficultyLevel;
-import guidomasi.Final.Project.enums.Gender;
-import guidomasi.Final.Project.enums.Role;
 import guidomasi.Final.Project.exceptions.NotFoundException;
-import guidomasi.Final.Project.payloads.NewExerciseDTO;
-import guidomasi.Final.Project.payloads.NewPatientDTO;
+import guidomasi.Final.Project.payloads.exercise.NewExerciseDTO;
 import guidomasi.Final.Project.repositories.ExercisesDAO;
-import org.apache.commons.lang3.builder.Diff;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
 
 @Service
 public class ExercisesService {

@@ -3,7 +3,7 @@ package guidomasi.Final.Project.services;
 import guidomasi.Final.Project.entities.Patient;
 import guidomasi.Final.Project.enums.Gender;
 import guidomasi.Final.Project.exceptions.NotFoundException;
-import guidomasi.Final.Project.payloads.NewPatientDTO;
+import guidomasi.Final.Project.payloads.patient.NewPatientDTO;
 import guidomasi.Final.Project.repositories.PatientsDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

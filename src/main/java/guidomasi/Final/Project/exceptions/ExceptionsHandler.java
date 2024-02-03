@@ -1,6 +1,6 @@
 package guidomasi.Final.Project.exceptions;
 
-import guidomasi.Final.Project.payloads.ErrorsDTO;
+import guidomasi.Final.Project.payloads.error.ErrorsDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;

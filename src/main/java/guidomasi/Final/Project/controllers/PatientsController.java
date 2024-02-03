@@ -2,15 +2,10 @@ package guidomasi.Final.Project.controllers;
 
 
 import guidomasi.Final.Project.entities.Patient;
-import guidomasi.Final.Project.exceptions.BadRequestException;
-import guidomasi.Final.Project.payloads.NewPatientDTO;
-import guidomasi.Final.Project.payloads.PatientsResponseDTO;
+import guidomasi.Final.Project.payloads.patient.NewPatientDTO;
 import guidomasi.Final.Project.services.PatientsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;

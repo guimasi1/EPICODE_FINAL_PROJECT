@@ -1,4 +1,4 @@
-package guidomasi.Final.Project.payloads;
+package guidomasi.Final.Project.payloads.physiotherapist;
 
 import java.util.UUID;
 
