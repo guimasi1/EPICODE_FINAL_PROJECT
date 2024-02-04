@@ -20,10 +20,6 @@ public class PatientsService {
     @Autowired
     PatientsDAO patientsDAO;
 
-
-
-
-
     public List<Patient> findAll() {
         return patientsDAO.findAll();
     }

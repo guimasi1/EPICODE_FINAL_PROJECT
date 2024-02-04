@@ -1,5 +1,6 @@
 package guidomasi.Final.Project.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -52,6 +53,10 @@ public class Patient implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "physiotherapist_id"))
     private List<Physiotherapist> physiotherapists;
 
+    @OneToMany(mappedBy = "patient")
+    @ToString.Exclude
+    @JsonManagedReference
+    private List<LinkRequest> linkRequests;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(this.role.name()));
