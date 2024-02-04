@@ -59,9 +59,9 @@ public class AuthService {
     }
 
     public Physiotherapist savePhysiotherapist(NewPhysiotherapistDTO body) {
-        physiotherapistsDAO.findByEmail(body.email()).ifPresent(physiotherapist -> {
+     /*   physiotherapistsDAO.findByEmail(body.email()).ifPresent(physiotherapist -> {
             throw new BadRequestException("Email " + body.email() + " già in uso");
-        });
+        });*/
 
         Physiotherapist newPhysiotherapist = new Physiotherapist();
         newPhysiotherapist.setEmail(body.email());
