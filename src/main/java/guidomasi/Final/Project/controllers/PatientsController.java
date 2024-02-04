@@ -7,6 +7,7 @@ import guidomasi.Final.Project.payloads.patient.NewPatientDTO;
 import guidomasi.Final.Project.services.PatientsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +44,11 @@ public class PatientsController {
     @GetMapping("/{id}")
     public Patient getPatientById(@PathVariable UUID id) {
         return patientsService.findById(id);
+    }
+
+    @GetMapping("/me")
+    public Patient getMyProfile(@AuthenticationPrincipal Patient myUser) {
+        return myUser;
     }
 
 }

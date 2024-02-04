@@ -9,6 +9,7 @@ import guidomasi.Final.Project.services.PhysiotherapistsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,6 +47,11 @@ public class PhysiotherapistsController {
     @GetMapping("/{id}")
     public Physiotherapist getPhysiotherapistById(@PathVariable UUID id) {
         return physiotherapistsService.findById(id);
+    }
+
+    @GetMapping("/me")
+    public Physiotherapist getMyProfile(@AuthenticationPrincipal Physiotherapist myUser) {
+        return myUser;
     }
 
 }
