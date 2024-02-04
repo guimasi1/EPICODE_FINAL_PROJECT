@@ -10,6 +10,7 @@ import guidomasi.Final.Project.enums.RequestStatus;
 import guidomasi.Final.Project.exceptions.NotFoundException;
 import guidomasi.Final.Project.payloads.exercise.NewExerciseDTO;
 import guidomasi.Final.Project.payloads.linkRequest.LinkRequestDTO;
+import guidomasi.Final.Project.payloads.linkRequest.LinkRequestPutDTO;
 import guidomasi.Final.Project.payloads.patient.NewPatientDTO;
 import guidomasi.Final.Project.repositories.LinkRequestsDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,12 +58,15 @@ public class LinkRequestsService {
         return linkRequestsDAO.save(request);
     }
 
-    public LinkRequest findByIdAndUpdate(UUID uuid, LinkRequestDTO body) {
+    public LinkRequest findByIdAndUpdate(UUID uuid, LinkRequestPutDTO body) {
         LinkRequest found = this.findById(uuid);
         Physiotherapist physiotherapist = physiotherapistsService.findById(body.physiotherapist_id());
         Patient patient = patientsService.findById(body.patient_id());
         found.setPhysiotherapist(physiotherapist);
         found.setPatient(patient);
+         RequestStatus requestStatus = RequestStatus.valueOf(body.requestStatus().toUpperCase());
+        found.setRequestStatus(requestStatus);
+
         return linkRequestsDAO.save(found);
     }
 

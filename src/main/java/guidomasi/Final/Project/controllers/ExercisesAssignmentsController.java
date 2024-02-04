@@ -1,13 +1,11 @@
 package guidomasi.Final.Project.controllers;
 
-import guidomasi.Final.Project.entities.Exercise;
 import guidomasi.Final.Project.entities.ExercisesAssignment;
 import guidomasi.Final.Project.exceptions.BadRequestException;
 import guidomasi.Final.Project.payloads.exercise.ExerciseResponseDTO;
-import guidomasi.Final.Project.payloads.exercise.NewExerciseDTO;
 import guidomasi.Final.Project.payloads.exercisesAssignment.ExercisesAssignmentDTO;
+import guidomasi.Final.Project.payloads.exercisesAssignment.ExercisesAssignmentPutDTO;
 import guidomasi.Final.Project.services.ExercisesAssignmentsService;
-import guidomasi.Final.Project.services.ExercisesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -55,5 +53,24 @@ public class ExercisesAssignmentsController {
     @PatchMapping("/inProgress/{id}")
     public ExercisesAssignment setInProgress(@PathVariable UUID id) {
         return exercisesAssignmentsService.setInProgress(id);
+    }
+
+    @PutMapping("/{id}")
+    public ExercisesAssignment updateById(@PathVariable UUID id, @RequestBody ExercisesAssignmentPutDTO body, BindingResult validation) {
+        if (validation.hasErrors()) {
+            System.out.println(validation.getAllErrors());
+            throw new BadRequestException("Ci sono errori nel payload!");
+        } else {
+            return exercisesAssignmentsService.findByIdAndUpdate(id, body);
+        }    }
+
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable UUID id) {
+        exercisesAssignmentsService.deleteById(id);
+    }
+
+    @GetMapping("/{id}")
+    public ExercisesAssignment getExercisesAssignmentById(@PathVariable UUID id) {
+        return exercisesAssignmentsService.findById(id);
     }
 }

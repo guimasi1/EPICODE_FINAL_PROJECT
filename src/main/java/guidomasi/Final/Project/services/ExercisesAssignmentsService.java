@@ -5,9 +5,11 @@ import guidomasi.Final.Project.entities.ExercisesAssignment;
 import guidomasi.Final.Project.entities.Patient;
 import guidomasi.Final.Project.entities.Physiotherapist;
 import guidomasi.Final.Project.enums.AssignmentStatus;
+import guidomasi.Final.Project.enums.DifficultyLevel;
 import guidomasi.Final.Project.exceptions.NotFoundException;
 import guidomasi.Final.Project.payloads.exerciseDetails.ExerciseDetailsDTO;
 import guidomasi.Final.Project.payloads.exercisesAssignment.ExercisesAssignmentDTO;
+import guidomasi.Final.Project.payloads.exercisesAssignment.ExercisesAssignmentPutDTO;
 import guidomasi.Final.Project.repositories.ExerciseDetailsDAO;
 import guidomasi.Final.Project.repositories.ExercisesAssignmentsDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +53,23 @@ public class ExercisesAssignmentsService {
     public ExercisesAssignment findById(UUID id) {
         return exercisesAssignmentsDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
 
+    }
+
+    public ExercisesAssignment findByIdAndUpdate(UUID uuid, ExercisesAssignmentPutDTO body) {
+        ExercisesAssignment found = this.findById(uuid);
+        found.setNotes(body.notes());
+        Physiotherapist physiotherapist = physiotherapistsService.findById(body.physiotherapist_id());
+        Patient patient = patientsService.findById(body.patient_id());
+        AssignmentStatus assignmentStatus = AssignmentStatus.valueOf(body.assignmentStatus());
+        found.setAssignmentStatus(assignmentStatus);
+        found.setAssignedBy(physiotherapist);
+        found.setPatient(patient);
+        return exercisesAssignmentsDAO.save(found);
+    }
+
+    public void deleteById(UUID uuid) {
+        ExercisesAssignment found = this.findById(uuid);
+        exercisesAssignmentsDAO.delete(found);
     }
 
     public ExercisesAssignment completeExercises(UUID id) {

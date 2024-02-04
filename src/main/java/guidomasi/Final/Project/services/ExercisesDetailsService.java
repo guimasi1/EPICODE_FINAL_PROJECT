@@ -34,4 +34,17 @@ public class ExercisesDetailsService {
 
     }
 
+    public ExerciseDetails findByIdAndUpdate(UUID uuid, ExerciseDetailsDTO body) {
+        ExerciseDetails found = this.findById(uuid);
+        found.setSets(body.sets());
+        found.setReps(body.reps());
+        return exerciseDetailsDAO.save(found);
+    }
+
+    public void deleteById(UUID uuid) {
+        ExerciseDetails found = this.findById(uuid);
+        exerciseDetailsDAO.delete(found);
+    }
+
+
 }

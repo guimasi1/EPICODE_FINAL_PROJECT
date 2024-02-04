@@ -1,13 +1,10 @@
 package guidomasi.Final.Project.controllers;
 
-import guidomasi.Final.Project.entities.Exercise;
 import guidomasi.Final.Project.entities.LinkRequest;
 import guidomasi.Final.Project.exceptions.BadRequestException;
-import guidomasi.Final.Project.payloads.exercise.ExerciseResponseDTO;
-import guidomasi.Final.Project.payloads.exercise.NewExerciseDTO;
 import guidomasi.Final.Project.payloads.linkRequest.LinkRequestDTO;
+import guidomasi.Final.Project.payloads.linkRequest.LinkRequestPutDTO;
 import guidomasi.Final.Project.payloads.linkRequest.LinkRequestResponseDTO;
-import guidomasi.Final.Project.services.ExercisesService;
 import guidomasi.Final.Project.services.LinkRequestsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -45,6 +42,25 @@ public class LinkRequestsController {
             @RequestParam(defaultValue = "id") String id) {
         return linkRequestsService.getLinkRequests(page,size,id);
     }
+    @PutMapping("/{id}")
+    public LinkRequest updateById(@PathVariable UUID id, @RequestBody LinkRequestPutDTO body, BindingResult validation) {
+        if (validation.hasErrors()) {
+            System.out.println(validation.getAllErrors());
+            throw new BadRequestException("Ci sono errori nel payload!");
+        } else {
+            return linkRequestsService.findByIdAndUpdate(id, body);
+        }    }
+
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable UUID id) {
+        linkRequestsService.deleteById(id);
+    }
+
+    @GetMapping("/{id}")
+    public LinkRequest getLinkRequestById(@PathVariable UUID id) {
+        return linkRequestsService.findById(id);
+    }
+
 
     @PatchMapping("/accept/{id}")
     public LinkRequest accept(@PathVariable UUID id) {
