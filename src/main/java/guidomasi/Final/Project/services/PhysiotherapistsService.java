@@ -27,7 +27,7 @@ public class PhysiotherapistsService {
         return physiotherapistsDAO.findByEmail(email).orElseThrow(() -> new NotFoundException("Physiotherapist with email " + email + " not found!"));
     }
     public Physiotherapist findById(UUID id) throws NotFoundException {
-        return physiotherapistsDAO.findById(id).orElseThrow(() -> new NotFoundException("Physiotherapist with email " + id + " not found!"));
+        return physiotherapistsDAO.findById(id).orElseThrow(() -> new NotFoundException("Physiotherapist with id " + id + " not found!"));
     }
 
 

@@ -15,6 +15,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/exercisesAssignments")
 public class ExercisesAssignmentsController {
@@ -40,5 +42,18 @@ public class ExercisesAssignmentsController {
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String id) {
         return exercisesAssignmentsService.getExercisesAssignments(page,size,id);
+    }
+
+    @PatchMapping("/complete/{id}")
+    public ExercisesAssignment completeAssignment(@PathVariable UUID id) {
+        return exercisesAssignmentsService.completeExercises(id);
+    }
+    @PatchMapping("/cancel/{id}")
+    public ExercisesAssignment cancelAssignment(@PathVariable UUID id) {
+        return exercisesAssignmentsService.cancelExercises(id);
+    }
+    @PatchMapping("/inProgress/{id}")
+    public ExercisesAssignment setInProgress(@PathVariable UUID id) {
+        return exercisesAssignmentsService.setInProgress(id);
     }
 }

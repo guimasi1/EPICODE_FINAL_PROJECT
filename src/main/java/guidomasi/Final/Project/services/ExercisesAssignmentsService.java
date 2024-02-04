@@ -5,6 +5,7 @@ import guidomasi.Final.Project.entities.ExercisesAssignment;
 import guidomasi.Final.Project.entities.Patient;
 import guidomasi.Final.Project.entities.Physiotherapist;
 import guidomasi.Final.Project.enums.AssignmentStatus;
+import guidomasi.Final.Project.exceptions.NotFoundException;
 import guidomasi.Final.Project.payloads.exerciseDetails.ExerciseDetailsDTO;
 import guidomasi.Final.Project.payloads.exercisesAssignment.ExercisesAssignmentDTO;
 import guidomasi.Final.Project.repositories.ExerciseDetailsDAO;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Service
 public class ExercisesAssignmentsService {
@@ -43,6 +45,27 @@ public class ExercisesAssignmentsService {
         exercisesAssignment.setAssignedBy(physiotherapist);
         exercisesAssignment.setPatient(patient);
 
+        return exercisesAssignmentsDAO.save(exercisesAssignment);
+    }
+
+    public ExercisesAssignment findById(UUID id) {
+        return exercisesAssignmentsDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
+
+    }
+
+    public ExercisesAssignment completeExercises(UUID id) {
+        ExercisesAssignment exercisesAssignment = this.findById(id);
+        exercisesAssignment.setAssignmentStatus(AssignmentStatus.COMPLETED);
+        return exercisesAssignmentsDAO.save(exercisesAssignment);
+    }
+    public ExercisesAssignment cancelExercises(UUID id) {
+        ExercisesAssignment exercisesAssignment = this.findById(id);
+        exercisesAssignment.setAssignmentStatus(AssignmentStatus.CANCELLED);
+        return exercisesAssignmentsDAO.save(exercisesAssignment);
+    }
+    public ExercisesAssignment setInProgress(UUID id) {
+        ExercisesAssignment exercisesAssignment = this.findById(id);
+        exercisesAssignment.setAssignmentStatus(AssignmentStatus.IN_PROGRESS);
         return exercisesAssignmentsDAO.save(exercisesAssignment);
     }
 }
