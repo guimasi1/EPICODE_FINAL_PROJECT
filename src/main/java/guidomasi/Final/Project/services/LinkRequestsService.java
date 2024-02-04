@@ -70,4 +70,15 @@ public class LinkRequestsService {
         LinkRequest found = this.findById(uuid);
         linkRequestsDAO.delete(found);
     }
+
+    public LinkRequest findByIdAndAccept(UUID uuid) {
+        LinkRequest found = this.findById(uuid);
+        found.setRequestStatus(RequestStatus.ACCEPTED);
+       return linkRequestsDAO.save(found);
+    }
+    public LinkRequest findByIdAndReject(UUID uuid) {
+        LinkRequest found = this.findById(uuid);
+        found.setRequestStatus(RequestStatus.REJECTED);
+        return linkRequestsDAO.save(found);
+    }
 }

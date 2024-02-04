@@ -16,6 +16,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/linkRequests")
 public class LinkRequestsController {
@@ -43,4 +45,14 @@ public class LinkRequestsController {
             @RequestParam(defaultValue = "id") String id) {
         return linkRequestsService.getLinkRequests(page,size,id);
     }
+
+    @PatchMapping("/accept/{id}")
+    public LinkRequest accept(@PathVariable UUID id) {
+        return linkRequestsService.findByIdAndAccept(id);
+    }
+    @PatchMapping("/reject/{id}")
+    public LinkRequest reject(@PathVariable UUID id) {
+        return linkRequestsService.findByIdAndReject(id);
+    }
+
 }

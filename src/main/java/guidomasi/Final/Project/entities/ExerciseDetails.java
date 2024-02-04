@@ -25,7 +25,6 @@ public class ExerciseDetails {
     private Exercise exercise;
     @ManyToOne
     @JoinColumn(name = "assignment_id")
-
     private ExercisesAssignment exercisesAssignment;
 
 
