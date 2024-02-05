@@ -40,7 +40,7 @@ public class Patient implements UserDetails {
     private String profilePictureUrl;
     private LocalDate registrationDate;
     private Role role;
-    @OneToMany(mappedBy = "patient")
+    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)
     @ToString.Exclude
     @JsonManagedReference
     private List<ExercisesAssignment> exercisesAssignments;
@@ -53,7 +53,7 @@ public class Patient implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "physiotherapist_id"))
     private List<Physiotherapist> physiotherapists;
 
-    @OneToMany(mappedBy = "patient")
+    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)
     @ToString.Exclude
     @JsonManagedReference
     private List<LinkRequest> linkRequests;
