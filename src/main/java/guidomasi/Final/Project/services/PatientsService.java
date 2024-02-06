@@ -1,6 +1,7 @@
 package guidomasi.Final.Project.services;
 
 import guidomasi.Final.Project.entities.Patient;
+import guidomasi.Final.Project.entities.Physiotherapist;
 import guidomasi.Final.Project.enums.Gender;
 import guidomasi.Final.Project.exceptions.NotFoundException;
 import guidomasi.Final.Project.payloads.patient.NewPatientDTO;
@@ -21,6 +22,8 @@ import java.util.UUID;
 public class PatientsService {
     @Autowired
     PatientsDAO patientsDAO;
+    @Autowired
+    PhysiotherapistsService physiotherapistsService;
 
     public List<Patient> findAll() {
         return patientsDAO.findAll();
@@ -30,6 +33,11 @@ public class PatientsService {
     public Page<Patient> getPatients(int page, int size, String orderBy) {
         Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
         return patientsDAO.findAll(pageable);
+    }
+
+    public Page<Patient> getPatientsByPhysiotherapist(UUID id,int page, int size, String orderBy) {
+        Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
+        return patientsDAO.findAllByPhysiotherapistId(id, pageable);
     }
 
 

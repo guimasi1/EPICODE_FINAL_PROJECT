@@ -91,6 +91,12 @@ public class LinkRequestsService {
         Patient patient = patientsService.findById(id);
         return linkRequestsDAO.findByPatient(patient, pageable);
     }
+    public Page<LinkRequest> getPendingLinkRequestsByPatient(String status,UUID id,int page, int size, String orderBy) {
+        Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
+        Patient patient = patientsService.findById(id);
+        RequestStatus requestStatus = RequestStatus.valueOf(status);
+        return linkRequestsDAO.findByRequestStatusAndPatient(requestStatus,patient, pageable);
+    }
 
 
 }
