@@ -39,8 +39,17 @@ public class LinkRequestsController {
 
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "id") String id) {
-        return linkRequestsService.getLinkRequests(page,size,id);
+            @RequestParam(defaultValue = "id") String orderBy) {
+        return linkRequestsService.getLinkRequests(page,size,orderBy);
+    }
+
+    @GetMapping("/byPatient/{id}")
+    public Page<LinkRequest> getLinkRequestsByPatient(
+            @PathVariable UUID id,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String orderBy) {
+        return linkRequestsService.getLinkRequestsByPatient(id,page,size,orderBy);
     }
     @PutMapping("/{id}")
     public LinkRequest updateById(@PathVariable UUID id, @RequestBody LinkRequestPutDTO body, BindingResult validation) {

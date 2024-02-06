@@ -85,4 +85,12 @@ public class LinkRequestsService {
         found.setRequestStatus(RequestStatus.REJECTED);
         return linkRequestsDAO.save(found);
     }
+
+    public Page<LinkRequest> getLinkRequestsByPatient(UUID id,int page, int size, String orderBy) {
+        Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
+        Patient patient = patientsService.findById(id);
+        return linkRequestsDAO.findByPatient(patient, pageable);
+    }
+
+
 }
