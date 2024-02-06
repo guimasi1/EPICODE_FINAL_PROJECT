@@ -23,11 +23,9 @@ public class LinkRequest {
     private UUID id;
     @ManyToOne
     @JoinColumn(name = "physiotherapist_id")
-    @JsonBackReference
     private Physiotherapist physiotherapist;
     @ManyToOne
     @JoinColumn(name = "patient_id")
-    @JsonBackReference
     private Patient patient;
     @Enumerated(EnumType.STRING)
     private RequestStatus requestStatus;
