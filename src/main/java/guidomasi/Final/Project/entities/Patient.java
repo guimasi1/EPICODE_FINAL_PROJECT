@@ -42,7 +42,7 @@ public class Patient implements UserDetails {
     private Role role;
     @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)
     @ToString.Exclude
-    @JsonManagedReference
+    @JsonIgnore
     private List<ExercisesAssignment> exercisesAssignments;
     @JsonIgnore
     @ToString.Exclude
@@ -55,7 +55,7 @@ public class Patient implements UserDetails {
 
     @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)
     @ToString.Exclude
-    @JsonManagedReference
+    @JsonIgnore
     private List<LinkRequest> linkRequests;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

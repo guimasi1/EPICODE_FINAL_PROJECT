@@ -52,13 +52,13 @@ public class Physiotherapist implements UserDetails {
             joinColumns = @JoinColumn(name = "physiotherapist_id"),
             inverseJoinColumns = @JoinColumn(name = "patient_id"))
     private List<Patient> patients;
-    @OneToMany(mappedBy = "assignedBy", fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "assignedBy", fetch = FetchType.EAGER)
+    @JsonIgnore
     @ToString.Exclude
     private List<ExercisesAssignment> exercisesAssignments;
 
-    @OneToMany(mappedBy = "physiotherapist", fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "physiotherapist", fetch = FetchType.EAGER)
+    @JsonIgnore
     @ToString.Exclude
     private List<LinkRequest> linkRequests;
 

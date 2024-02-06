@@ -77,6 +77,9 @@ public class AuthService {
         return physiotherapistsDAO.save(newPhysiotherapist);
     }
     public Patient savePatient(NewPatientDTO body) {
+           /*   patientsDAO.findByEmail(body.email()).ifPresent(patient -> {
+            throw new BadRequestException("Email " + body.email() + " già in uso");
+        });*/
         Patient patient = new Patient();
         patient.setEmail(body.email());
         patient.setRole(Role.PATIENT);

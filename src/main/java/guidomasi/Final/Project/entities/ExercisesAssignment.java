@@ -31,10 +31,8 @@ public class ExercisesAssignment {
     private List<ExerciseDetails> exerciseDetails;
     @ManyToOne
     @JoinColumn(name = "patient_id")
-    @JsonBackReference
     private Patient patient;
     @ManyToOne
     @JoinColumn(name = ("physiotherapist_id"))
-    @JsonBackReference
     private Physiotherapist assignedBy;
 }
