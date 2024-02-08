@@ -1,5 +1,6 @@
 package guidomasi.Final.Project.services;
 
+import guidomasi.Final.Project.entities.Exercise;
 import guidomasi.Final.Project.entities.ExerciseDetails;
 import guidomasi.Final.Project.exceptions.NotFoundException;
 import guidomasi.Final.Project.payloads.exerciseDetails.ExerciseDetailsDTO;
@@ -17,6 +18,9 @@ import java.util.UUID;
 public class ExercisesDetailsService {
     @Autowired
     ExerciseDetailsDAO exerciseDetailsDAO;
+
+    @Autowired
+    ExercisesService exercisesService;
     public Page<ExerciseDetails> getExercisesDetails(int page, int size, String orderBy) {
         Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
         return exerciseDetailsDAO.findAll(pageable);
@@ -26,6 +30,8 @@ public class ExercisesDetailsService {
         ExerciseDetails exerciseDetails = new ExerciseDetails();
         exerciseDetails.setReps(body.reps());
         exerciseDetails.setSets(body.sets());
+        Exercise exercise = exercisesService.findById(body.exercise_id());
+        exerciseDetails.setExercise(exercise);
         return exerciseDetailsDAO.save(exerciseDetails);
     }
 

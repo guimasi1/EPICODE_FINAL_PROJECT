@@ -1,6 +1,7 @@
 package guidomasi.Final.Project.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import guidomasi.Final.Project.enums.DifficultyLevel;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,6 +29,7 @@ public class Exercise {
     @Enumerated(EnumType.STRING)
     private DifficultyLevel difficultyLevel;
     @OneToMany(mappedBy = "exercise")
+    @JsonIgnore
     private List<ExerciseDetails> exerciseDetails;
 
 }

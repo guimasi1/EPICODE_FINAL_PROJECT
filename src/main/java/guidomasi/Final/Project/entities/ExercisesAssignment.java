@@ -28,6 +28,7 @@ public class ExercisesAssignment {
     private String notes;
     @Enumerated(EnumType.STRING)
     @OneToMany(mappedBy = "exercisesAssignment")
+    @JsonIgnore
     private List<ExerciseDetails> exerciseDetails;
     @ManyToOne
     @JoinColumn(name = "patient_id")
