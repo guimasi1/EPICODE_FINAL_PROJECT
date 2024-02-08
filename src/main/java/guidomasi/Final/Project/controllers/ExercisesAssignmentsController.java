@@ -78,4 +78,15 @@ public class ExercisesAssignmentsController {
     public ExercisesAssignment addExercise(@PathVariable UUID id, @RequestBody UUID exerciseDetails_id ){
         return exercisesAssignmentsService.addExercise(id ,exerciseDetails_id);
     }
+
+    @GetMapping("/getByPatient/{patientId}/andPhysio/{physioId}")
+    public Page<ExercisesAssignment> getExercisesAssignmentsByPatientAndPhysio(
+            @PathVariable UUID patientId,
+            @PathVariable UUID physioId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String id) {
+
+        return exercisesAssignmentsService.getExercisesAssignmentsByPhysioAndPatient(patientId,physioId,page,size,id);
+    }
 }

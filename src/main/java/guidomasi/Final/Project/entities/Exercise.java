@@ -28,7 +28,7 @@ public class Exercise {
     private String targetArea;
     @Enumerated(EnumType.STRING)
     private DifficultyLevel difficultyLevel;
-    @OneToMany(mappedBy = "exercise")
+    @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<ExerciseDetails> exerciseDetails;
 

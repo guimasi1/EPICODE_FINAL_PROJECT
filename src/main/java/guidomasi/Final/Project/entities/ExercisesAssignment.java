@@ -27,7 +27,7 @@ public class ExercisesAssignment {
     private AssignmentStatus assignmentStatus;
     private String notes;
     @Enumerated(EnumType.STRING)
-    @OneToMany(mappedBy = "exercisesAssignment")
+    @OneToMany(mappedBy = "exercisesAssignment", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<ExerciseDetails> exerciseDetails;
     @ManyToOne

@@ -97,4 +97,11 @@ public class ExercisesAssignmentsService {
         return exercisesAssignmentsDAO.save(exercisesAssignment);
     }
 
+    public Page<ExercisesAssignment> getExercisesAssignmentsByPhysioAndPatient(UUID patient_id, UUID physiotherapist_id,int page, int size, String orderBy) {
+        Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
+        Patient patient = patientsService.findById(patient_id);
+        Physiotherapist physiotherapist = physiotherapistsService.findById(physiotherapist_id);
+        return exercisesAssignmentsDAO.findByPatientAndAssignedBy(patient,physiotherapist,pageable);
+    }
+
 }
