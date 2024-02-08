@@ -73,4 +73,9 @@ public class ExercisesAssignmentsController {
     public ExercisesAssignment getExercisesAssignmentById(@PathVariable UUID id) {
         return exercisesAssignmentsService.findById(id);
     }
+
+    @PatchMapping("/addExercise/{id}")
+    public ExercisesAssignment addExercise(@PathVariable UUID id, @RequestBody UUID exerciseDetails_id ){
+        return exercisesAssignmentsService.addExercise(id ,exerciseDetails_id);
+    }
 }

@@ -1,4 +1,6 @@
 package guidomasi.Final.Project.payloads.exerciseDetails;
 
-public record ExerciseDetailsDTO (int sets, int reps){
+import java.util.UUID;
+
+public record ExerciseDetailsDTO (int sets, int reps, UUID exercise_id){
 }

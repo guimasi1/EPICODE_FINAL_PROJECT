@@ -62,4 +62,7 @@ public class ExercisesDetailsController {
     public ExerciseDetails getExerciseDetailsById(@PathVariable UUID id) {
         return exercisesDetailsService.findById(id);
     }
+
+
+
 }

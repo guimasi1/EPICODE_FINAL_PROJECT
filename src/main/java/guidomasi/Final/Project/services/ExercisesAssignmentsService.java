@@ -20,6 +20,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -87,4 +88,13 @@ public class ExercisesAssignmentsService {
         exercisesAssignment.setAssignmentStatus(AssignmentStatus.IN_PROGRESS);
         return exercisesAssignmentsDAO.save(exercisesAssignment);
     }
+
+    public ExercisesAssignment addExercise(UUID assignment_id, UUID exerciseDetails_id) {
+        ExercisesAssignment exercisesAssignment = this.findById(assignment_id);
+        List<ExerciseDetails> allAssignedExercises = exercisesAssignment.getExerciseDetails();
+        ExerciseDetails exerciseToAdd = exercisesDetailsService.findById(exerciseDetails_id);
+        allAssignedExercises.add(exerciseToAdd);
+        return exercisesAssignmentsDAO.save(exercisesAssignment);
+    }
+
 }

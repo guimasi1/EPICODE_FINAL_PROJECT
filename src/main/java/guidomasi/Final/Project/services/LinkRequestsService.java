@@ -7,6 +7,7 @@ import guidomasi.Final.Project.entities.Physiotherapist;
 import guidomasi.Final.Project.enums.DifficultyLevel;
 import guidomasi.Final.Project.enums.Gender;
 import guidomasi.Final.Project.enums.RequestStatus;
+import guidomasi.Final.Project.exceptions.BadRequestException;
 import guidomasi.Final.Project.exceptions.NotFoundException;
 import guidomasi.Final.Project.payloads.exercise.NewExerciseDTO;
 import guidomasi.Final.Project.payloads.linkRequest.LinkRequestDTO;
@@ -33,13 +34,14 @@ public class LinkRequestsService {
     PhysiotherapistsService physiotherapistsService;
     @Autowired
     PatientsService patientsService;
+
     public List<LinkRequest> findAll() {
         return linkRequestsDAO.findAll();
     }
 
 
     public Page<LinkRequest> getLinkRequests(int page, int size, String orderBy) {
-        Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
+        Pageable pageable = PageRequest.of(page, size, Sort.by(orderBy));
         return linkRequestsDAO.findAll(pageable);
     }
 
@@ -47,6 +49,7 @@ public class LinkRequestsService {
     public LinkRequest findById(UUID id) {
         return linkRequestsDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
     }
+
     public LinkRequest save(LinkRequestDTO body) {
         LinkRequest request = new LinkRequest();
         Physiotherapist physiotherapist = physiotherapistsService.findById(body.physiotherapist_id());
@@ -64,7 +67,7 @@ public class LinkRequestsService {
         Patient patient = patientsService.findById(body.patient_id());
         found.setPhysiotherapist(physiotherapist);
         found.setPatient(patient);
-         RequestStatus requestStatus = RequestStatus.valueOf(body.requestStatus().toUpperCase());
+        RequestStatus requestStatus = RequestStatus.valueOf(body.requestStatus().toUpperCase());
         found.setRequestStatus(requestStatus);
 
         return linkRequestsDAO.save(found);
@@ -77,9 +80,28 @@ public class LinkRequestsService {
 
     public LinkRequest findByIdAndAccept(UUID uuid) {
         LinkRequest found = this.findById(uuid);
-        found.setRequestStatus(RequestStatus.ACCEPTED);
-       return linkRequestsDAO.save(found);
+        if (found.getRequestStatus() == RequestStatus.PENDING) {
+            found.setRequestStatus(RequestStatus.ACCEPTED);
+            Patient patient = found.getPatient();
+            Physiotherapist physiotherapist = found.getPhysiotherapist();
+
+            List<Patient> physiotherapistPatients = physiotherapist.getPatients();
+            if (!physiotherapistPatients.contains(patient)) {
+                physiotherapistPatients.add(patient);
+                List<Physiotherapist> patientPhysiotherapists = patient.getPhysiotherapists();
+                if (!patientPhysiotherapists.contains(physiotherapist)) {
+                    patientPhysiotherapists.add(physiotherapist);
+                }
+
+                return linkRequestsDAO.save(found);
+            } else {
+                return found;
+            }
+        } else {
+            throw new BadRequestException("Request not in pending status.");
+        }
     }
+
     public LinkRequest findByIdAndReject(UUID uuid) {
         LinkRequest found = this.findById(uuid);
         found.setRequestStatus(RequestStatus.REJECTED);
