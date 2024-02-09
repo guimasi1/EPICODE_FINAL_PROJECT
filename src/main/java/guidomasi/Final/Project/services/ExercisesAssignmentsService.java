@@ -114,5 +114,12 @@ public class ExercisesAssignmentsService {
         return exercisesAssignmentsDAO.findByPatientAndAssignedBy(patient,physiotherapist,pageable);
     }
 
+    public Page<ExercisesAssignment> getExercisesAssignmentsByPatient(UUID patient_id,int page, int size, String orderBy) {
+        Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
+        Patient patient = patientsService.findById(patient_id);
+
+        return exercisesAssignmentsDAO.findByPatient(patient,pageable);
+    }
+
 
 }

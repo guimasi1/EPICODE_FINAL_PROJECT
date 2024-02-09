@@ -13,4 +13,5 @@ import java.util.UUID;
 @Repository
 public interface ExercisesAssignmentsDAO extends JpaRepository<ExercisesAssignment, UUID> {
     Page<ExercisesAssignment> findByPatientAndAssignedBy(Patient patient, Physiotherapist physiotherapist, Pageable pageable);
+    Page<ExercisesAssignment> findByPatient(Patient patient, Pageable pageable);
 }
