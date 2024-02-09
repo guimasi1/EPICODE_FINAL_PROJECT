@@ -2,9 +2,12 @@ package guidomasi.Final.Project.services;
 
 import guidomasi.Final.Project.entities.Exercise;
 import guidomasi.Final.Project.entities.ExerciseDetails;
+import guidomasi.Final.Project.entities.ExercisesAssignment;
 import guidomasi.Final.Project.exceptions.NotFoundException;
 import guidomasi.Final.Project.payloads.exerciseDetails.ExerciseDetailsDTO;
+import guidomasi.Final.Project.payloads.exercisesAssignment.ExercisesAssignmentResponseDTO;
 import guidomasi.Final.Project.repositories.ExerciseDetailsDAO;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +21,9 @@ import java.util.UUID;
 public class ExercisesDetailsService {
     @Autowired
     ExerciseDetailsDAO exerciseDetailsDAO;
+
+    @Autowired
+    ExercisesAssignmentsService exercisesAssignmentsService;
 
     @Autowired
     ExercisesService exercisesService;
@@ -50,6 +56,14 @@ public class ExercisesDetailsService {
     public void deleteById(UUID uuid) {
         ExerciseDetails found = this.findById(uuid);
         exerciseDetailsDAO.delete(found);
+    }
+
+    @Transactional
+    public ExercisesAssignmentResponseDTO assignExercise(UUID exercise_id, UUID assignment_id) {
+        ExercisesAssignment assignment = exercisesAssignmentsService.findById(assignment_id);
+        ExerciseDetails details = this.findById(exercise_id);
+        details.setExercisesAssignment(assignment);
+        return new ExercisesAssignmentResponseDTO(assignment_id);
     }
 
 

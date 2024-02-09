@@ -30,6 +30,8 @@ public class Exercise {
     private DifficultyLevel difficultyLevel;
     @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL)
     @JsonIgnore
+    @ToString.Exclude
+    
     private List<ExerciseDetails> exerciseDetails;
 
 }

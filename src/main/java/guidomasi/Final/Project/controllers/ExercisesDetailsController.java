@@ -1,10 +1,12 @@
 package guidomasi.Final.Project.controllers;
 
 import guidomasi.Final.Project.entities.ExerciseDetails;
+import guidomasi.Final.Project.entities.ExercisesAssignment;
 import guidomasi.Final.Project.entities.Patient;
 import guidomasi.Final.Project.exceptions.BadRequestException;
 import guidomasi.Final.Project.payloads.exerciseDetails.ExerciseDetailsDTO;
 import guidomasi.Final.Project.payloads.exerciseDetails.ExercisesDetailsResponseDTO;
+import guidomasi.Final.Project.payloads.exercisesAssignment.ExercisesAssignmentResponseDTO;
 import guidomasi.Final.Project.payloads.patient.NewPatientDTO;
 import guidomasi.Final.Project.services.ExercisesDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +63,11 @@ public class ExercisesDetailsController {
     @GetMapping("/{id}")
     public ExerciseDetails getExerciseDetailsById(@PathVariable UUID id) {
         return exercisesDetailsService.findById(id);
+    }
+
+    @PostMapping("/{id}/assignTo/{assignment_id}")
+    public ExercisesAssignmentResponseDTO assign(@PathVariable UUID id, @PathVariable UUID assignment_id) {
+        return exercisesDetailsService.assignExercise(id,assignment_id);
     }
 
 

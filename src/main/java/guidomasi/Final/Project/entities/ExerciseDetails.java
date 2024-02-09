@@ -25,7 +25,11 @@ public class ExerciseDetails {
     private Exercise exercise;
     @ManyToOne
     @JoinColumn(name = "assignment_id")
+    @JsonIgnore
     private ExercisesAssignment exercisesAssignment;
 
-
+    public ExerciseDetails(int sets, int reps) {
+        this.sets = sets;
+        this.reps = reps;
+    }
 }

@@ -20,7 +20,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -31,8 +33,7 @@ public class ExercisesAssignmentsService {
     PhysiotherapistsService physiotherapistsService;
     @Autowired
     PatientsService patientsService;
-    @Autowired
-    ExercisesDetailsService exercisesDetailsService;
+
     public Page<ExercisesAssignment> getExercisesAssignments(int page, int size, String orderBy) {
         Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
         return exercisesAssignmentsDAO.findAll(pageable);
@@ -89,13 +90,22 @@ public class ExercisesAssignmentsService {
         return exercisesAssignmentsDAO.save(exercisesAssignment);
     }
 
-    public ExercisesAssignment addExercise(UUID assignment_id, UUID exerciseDetails_id) {
+   /* public ExercisesAssignment addExercise(UUID assignment_id, UUID exerciseDetails_id) {
         ExercisesAssignment exercisesAssignment = this.findById(assignment_id);
-        List<ExerciseDetails> allAssignedExercises = exercisesAssignment.getExerciseDetails();
         ExerciseDetails exerciseToAdd = exercisesDetailsService.findById(exerciseDetails_id);
+
+        List<ExerciseDetails> allAssignedExercises;
+        if(exercisesAssignment.getExerciseDetails() == null) {
+            allAssignedExercises = new ArrayList<>();
+        } else {
+            allAssignedExercises = exercisesAssignment.getExerciseDetails();
+        }
         allAssignedExercises.add(exerciseToAdd);
+        allAssignedExercises.forEach(System.out::println);
+        exercisesAssignment.setExerciseDetails(allAssignedExercises);
         return exercisesAssignmentsDAO.save(exercisesAssignment);
     }
+*/
 
     public Page<ExercisesAssignment> getExercisesAssignmentsByPhysioAndPatient(UUID patient_id, UUID physiotherapist_id,int page, int size, String orderBy) {
         Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
@@ -103,5 +113,6 @@ public class ExercisesAssignmentsService {
         Physiotherapist physiotherapist = physiotherapistsService.findById(physiotherapist_id);
         return exercisesAssignmentsDAO.findByPatientAndAssignedBy(patient,physiotherapist,pageable);
     }
+
 
 }

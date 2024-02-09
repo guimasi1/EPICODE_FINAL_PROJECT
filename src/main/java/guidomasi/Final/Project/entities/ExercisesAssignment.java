@@ -27,13 +27,18 @@ public class ExercisesAssignment {
     private AssignmentStatus assignmentStatus;
     private String notes;
     @Enumerated(EnumType.STRING)
-    @OneToMany(mappedBy = "exercisesAssignment", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<ExerciseDetails> exerciseDetails;
+    @OneToMany(mappedBy = "exercisesAssignment", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ToString.Exclude
+    // changing it to plural... will it work??
+    private List<ExerciseDetails> exercisesDetails;
     @ManyToOne
     @JoinColumn(name = "patient_id")
     private Patient patient;
     @ManyToOne
     @JoinColumn(name = ("physiotherapist_id"))
     private Physiotherapist assignedBy;
+
+    public ExercisesAssignment(String notes) {
+        this.notes = notes;
+    }
 }

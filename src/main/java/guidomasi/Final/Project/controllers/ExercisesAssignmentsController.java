@@ -74,10 +74,11 @@ public class ExercisesAssignmentsController {
         return exercisesAssignmentsService.findById(id);
     }
 
-    @PatchMapping("/addExercise/{id}")
-    public ExercisesAssignment addExercise(@PathVariable UUID id, @RequestBody UUID exerciseDetails_id ){
+  /*  @PostMapping("/addExercise/{id}/{exerciseDetails_id}")
+    public ExercisesAssignment addExercise(@PathVariable UUID id, @PathVariable UUID exerciseDetails_id ){
         return exercisesAssignmentsService.addExercise(id ,exerciseDetails_id);
     }
+*/
 
     @GetMapping("/getByPatient/{patientId}/andPhysio/{physioId}")
     public Page<ExercisesAssignment> getExercisesAssignmentsByPatientAndPhysio(
