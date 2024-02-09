@@ -65,10 +65,14 @@ public class ExercisesDetailsController {
         return exercisesDetailsService.findById(id);
     }
 
-    @PostMapping("/{id}/assignTo/{assignment_id}")
+  /*  @PostMapping("/{id}/assignTo/{assignment_id}")
     public ExercisesAssignmentResponseDTO assign(@PathVariable UUID id, @PathVariable UUID assignment_id) {
         return exercisesDetailsService.assignExercise(id,assignment_id);
-    }
+    }*/
+  @PostMapping("/{id}/assignTo/{assignment_id}")
+  public ExerciseDetails assign(@PathVariable UUID id, @PathVariable UUID assignment_id) {
+      return exercisesDetailsService.assignTheExercise(id,assignment_id);
+  }
 
 
 

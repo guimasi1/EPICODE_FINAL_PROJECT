@@ -53,17 +53,26 @@ public class ExercisesDetailsService {
         return exerciseDetailsDAO.save(found);
     }
 
-    public void deleteById(UUID uuid) {
-        ExerciseDetails found = this.findById(uuid);
+    public void deleteById(UUID id) {
+        ExerciseDetails found = this.findById(id);
+        found.setExercise(null);
+        found.setExercisesAssignment(null);
         exerciseDetailsDAO.delete(found);
     }
-
     @Transactional
+
     public ExercisesAssignmentResponseDTO assignExercise(UUID exercise_id, UUID assignment_id) {
         ExercisesAssignment assignment = exercisesAssignmentsService.findById(assignment_id);
         ExerciseDetails details = this.findById(exercise_id);
         details.setExercisesAssignment(assignment);
         return new ExercisesAssignmentResponseDTO(assignment_id);
+    }
+
+    public ExerciseDetails assignTheExercise(UUID exercise_id, UUID assignment_id) {
+        ExercisesAssignment assignment = exercisesAssignmentsService.findById(assignment_id);
+        ExerciseDetails details = this.findById(exercise_id);
+        details.setExercisesAssignment(assignment);
+        return exerciseDetailsDAO.save(details);
     }
 
 

@@ -29,7 +29,6 @@ public class ExercisesAssignment {
     @Enumerated(EnumType.STRING)
     @OneToMany(mappedBy = "exercisesAssignment", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @ToString.Exclude
-    // changing it to plural... will it work??
     private List<ExerciseDetails> exercisesDetails;
     @ManyToOne
     @JoinColumn(name = "patient_id")

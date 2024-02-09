@@ -28,8 +28,4 @@ public class ExerciseDetails {
     @JsonIgnore
     private ExercisesAssignment exercisesAssignment;
 
-    public ExerciseDetails(int sets, int reps) {
-        this.sets = sets;
-        this.reps = reps;
-    }
 }

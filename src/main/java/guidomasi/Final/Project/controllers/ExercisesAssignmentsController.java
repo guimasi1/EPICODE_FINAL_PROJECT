@@ -23,13 +23,12 @@ public class ExercisesAssignmentsController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ExerciseResponseDTO create(@RequestBody @Validated ExercisesAssignmentDTO assignment, BindingResult validation) {
+    public ExercisesAssignment create(@RequestBody @Validated ExercisesAssignmentDTO assignment, BindingResult validation) {
         if(validation.hasErrors()) {
             System.out.println(validation.getAllErrors());
             throw new BadRequestException("Something is wrong in the payload.");
         } else {
-            ExercisesAssignment newAssignment = exercisesAssignmentsService.save(assignment);
-            return new ExerciseResponseDTO(newAssignment.getId());
+            return exercisesAssignmentsService.save(assignment);
         }
     }
 
