@@ -1,5 +1,7 @@
 package guidomasi.Final.Project.services;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import guidomasi.Final.Project.entities.Patient;
 import guidomasi.Final.Project.entities.Physiotherapist;
 import guidomasi.Final.Project.enums.Gender;
@@ -14,13 +16,18 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.UUID;
 
 @Service
 public class PhysiotherapistsService {
     @Autowired
     PhysiotherapistsDAO physiotherapistsDAO;
+
+    @Autowired
+    Cloudinary cloudinary;
 
     public Page<Physiotherapist> getPhysiotherapists(int page, int size, String orderBy) {
         Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
@@ -69,6 +76,12 @@ public class PhysiotherapistsService {
         return physiotherapistsDAO.findBySpecialization(specialization, pageable);
 
     }
-
+    public Physiotherapist uploadPicture(UUID id, MultipartFile file) throws IOException {
+        Physiotherapist physiotherapist = physiotherapistsDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
+        String url = (String) cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
+        physiotherapist.setProfilePictureUrl(url);
+        physiotherapistsDAO.save(physiotherapist);
+        return physiotherapist;
+    }
 
 }
