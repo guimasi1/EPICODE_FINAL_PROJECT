@@ -32,6 +32,10 @@ public class ExercisesService {
         Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
         return exercisesDAO.findAll(pageable);
     }
+  public Page<Exercise> getExercisesByName(String name,int page, int size, String orderBy) {
+        Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
+        return exercisesDAO.findByNameContainingIgnoreCase(name,pageable);
+    }
 
     public Exercise saveExercise(NewExerciseDTO body) {
         Exercise exercise = new Exercise();

@@ -43,6 +43,14 @@ public class ExercisesController {
             @RequestParam(defaultValue = "id") String id) {
         return exercisesService.getExercises(page,size,id);
     }
+    @GetMapping("/byName")
+    public Page<Exercise> getExercisesByName(
+            @RequestParam(required = false) String name,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String id) {
+        return exercisesService.getExercisesByName(name,page,size,id);
+    }
     @PutMapping("/{id}")
     public Exercise updateById(@PathVariable UUID id, @RequestBody ExercisesPutDTO body, BindingResult validation) {
         if (validation.hasErrors()) {
