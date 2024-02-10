@@ -10,7 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.UUID;
 
 @RestController
@@ -59,6 +61,11 @@ public class PatientsController {
     @GetMapping("/me")
     public Patient getMyProfile(@AuthenticationPrincipal Patient myUser) {
         return myUser;
+    }
+
+    @PostMapping("/{id}/profilePicture")
+    public Patient uploadExample(@PathVariable UUID id, @RequestParam("picture") MultipartFile body) throws IOException {
+        return patientsService.uploadPicture(id, body);
     }
 
 }
