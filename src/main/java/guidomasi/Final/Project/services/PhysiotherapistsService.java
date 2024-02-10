@@ -52,5 +52,23 @@ public class PhysiotherapistsService {
         return physiotherapistsDAO.save(found);
     }
 
+    public Page<Physiotherapist> getPhysiosByParams(String firstName, String lastName,
+                                                    int page, int size, String orderBy) {
+        Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
+
+         return physiotherapistsDAO.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(firstName,lastName,pageable);
+
+    }
+
+    public Page<Physiotherapist> findBySpecialization(String specializationStr,int page, int size, String orderBy) {
+        Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
+        Specialization specialization = null;
+        if (specializationStr != null && !specializationStr.isEmpty()) {
+            specialization = Specialization.valueOf(specializationStr.toUpperCase());
+        }
+        return physiotherapistsDAO.findBySpecialization(specialization, pageable);
+
+    }
+
 
 }

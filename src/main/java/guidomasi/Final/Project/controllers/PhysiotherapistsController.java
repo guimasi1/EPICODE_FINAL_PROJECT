@@ -29,6 +29,23 @@ public class PhysiotherapistsController {
             @RequestParam(defaultValue = "id") String id) {
         return physiotherapistsService.getPhysiotherapists(page, size, id);
     }
+    @GetMapping("/byName")
+    public Page<Physiotherapist> getByParams(
+            @RequestParam(required = false) String firstName,
+            @RequestParam(required = false) String lastName,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String orderBy) {
+        return physiotherapistsService.getPhysiosByParams(firstName,lastName,page, size, orderBy);
+    }
+    @GetMapping("/bySpecialization")
+    public Page<Physiotherapist> getBySpecialization(
+            @RequestParam(required = false) String specialization,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String orderBy) {
+        return physiotherapistsService.findBySpecialization(specialization,page, size, orderBy);
+    }
 
     @PutMapping("/{id}")
     public Physiotherapist updateById(@PathVariable UUID id, @RequestBody NewPhysiotherapistDTO body, BindingResult validation) {
@@ -53,5 +70,7 @@ public class PhysiotherapistsController {
     public Physiotherapist getMyProfile(@AuthenticationPrincipal Physiotherapist myUser) {
         return myUser;
     }
+
+
 
 }
