@@ -41,10 +41,14 @@ public class PatientsService {
         Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
         return patientsDAO.findAll(pageable);
     }
-
-    public Page<Patient> getPatientsByPhysiotherapist(UUID id,int page, int size, String orderBy) {
+    public Page<Patient> getPatientsByLastName(String lastName,int page, int size, String orderBy) {
         Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
-        return patientsDAO.findAllByPhysiotherapistId(id, pageable);
+        return patientsDAO.findByLastNameContainingIgnoreCase(lastName,pageable);
+    }
+
+    public Page<Patient> getPatientsByPhysiotherapist(UUID id,String lastName,int page, int size, String orderBy) {
+        Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
+        return patientsDAO.findAllByPhysiotherapistId(id, lastName ,pageable);
     }
 
 

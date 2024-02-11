@@ -29,13 +29,23 @@ public class PatientsController {
         return patientsService.getPatients(page,size,id);
     }
 
+    @GetMapping("/byLastName")
+    public Page<Patient> getPatientsByLastName(
+            @RequestParam(required = false) String lastName,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String id) {
+        return patientsService.getPatientsByLastName(lastName,page,size,id);
+    }
+
     @GetMapping("/byPhysiotherapist/{id}")
     public Page<Patient> getPatientsByPhysiotherapist(
             @PathVariable UUID id,
+            @RequestParam(required = false) String lastName,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String orderBy) {
-        return patientsService.getPatientsByPhysiotherapist(id,page,size,orderBy);
+        return patientsService.getPatientsByPhysiotherapist(id,lastName,page,size,orderBy);
     }
 
 

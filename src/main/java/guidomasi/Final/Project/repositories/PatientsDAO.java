@@ -18,7 +18,8 @@ import java.util.UUID;
 @Repository
 public interface PatientsDAO extends JpaRepository<Patient, UUID> {
     Optional<Patient> findByEmail(String email);
-    @Query("SELECT p FROM Patient p JOIN p.physiotherapists pt WHERE pt.id = :physiotherapistId")
-    Page<Patient> findAllByPhysiotherapistId(@Param("physiotherapistId") UUID physiotherapistId, Pageable pageable);
+    @Query("SELECT p FROM Patient p JOIN p.physiotherapists pt WHERE pt.id = :physiotherapistId AND (:lastName IS NULL OR LOWER(p.lastName) LIKE LOWER(CONCAT('%', :lastName, '%')))")
+    Page<Patient> findAllByPhysiotherapistId(@Param("physiotherapistId") UUID physiotherapistId, @Param("lastName") String lastName, Pageable pageable);
 
+    Page<Patient> findByLastNameContainingIgnoreCase(String lastName, Pageable pageable);
 }

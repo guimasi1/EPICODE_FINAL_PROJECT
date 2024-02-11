@@ -39,17 +39,17 @@ public class ExercisesController {
     public Page<Exercise> getExercises(
 
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "id") String id) {
-        return exercisesService.getExercises(page,size,id);
+            @RequestParam(defaultValue = "6") int size,
+            @RequestParam(defaultValue = "id") String orderBy) {
+        return exercisesService.getExercises(page,size,orderBy);
     }
     @GetMapping("/byName")
     public Page<Exercise> getExercisesByName(
             @RequestParam(required = false) String name,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "id") String id) {
-        return exercisesService.getExercisesByName(name,page,size,id);
+            @RequestParam(defaultValue = "id") String orderBy) {
+        return exercisesService.getExercisesByName(name,page,size,orderBy);
     }
     @PutMapping("/{id}")
     public Exercise updateById(@PathVariable UUID id, @RequestBody ExercisesPutDTO body, BindingResult validation) {
