@@ -2,6 +2,7 @@ package guidomasi.Final.Project.controllers;
 
 import guidomasi.Final.Project.entities.Exercise;
 import guidomasi.Final.Project.entities.ExerciseDetails;
+import guidomasi.Final.Project.entities.Patient;
 import guidomasi.Final.Project.exceptions.BadRequestException;
 import guidomasi.Final.Project.payloads.exercise.ExerciseResponseDTO;
 import guidomasi.Final.Project.payloads.exercise.ExercisesPutDTO;
@@ -14,7 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.UUID;
 
 @RestController
@@ -70,4 +73,8 @@ public class ExercisesController {
         return exercisesService.findById(id);
     }
 
+    @PostMapping("/{id}/uploadPicture")
+    public Exercise uploadExample(@PathVariable UUID id, @RequestParam("picture") MultipartFile body) throws IOException {
+        return exercisesService.uploadPicture(id, body);
+    }
 }

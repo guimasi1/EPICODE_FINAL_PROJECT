@@ -1,8 +1,9 @@
 package guidomasi.Final.Project.services;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import guidomasi.Final.Project.entities.Exercise;
 import guidomasi.Final.Project.enums.DifficultyLevel;
-import guidomasi.Final.Project.enums.Gender;
 import guidomasi.Final.Project.exceptions.NotFoundException;
 import guidomasi.Final.Project.payloads.exercise.ExercisesPutDTO;
 import guidomasi.Final.Project.payloads.exercise.NewExerciseDTO;
@@ -15,13 +16,18 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.UUID;
 
 @Service
 public class ExercisesService {
     @Autowired
     ExercisesDAO exercisesDAO;
+
+    @Autowired
+    Cloudinary cloudinary;
 
     public Exercise findByName(String name) {
         return exercisesDAO.findByName(name).orElseThrow(() -> new NotFoundException("Exercise with name " + name + " not found!"));
@@ -66,6 +72,14 @@ public class ExercisesService {
     public void deleteById(UUID uuid) {
         Exercise found = this.findById(uuid);
         exercisesDAO.delete(found);
+    }
+
+    public Exercise uploadPicture(UUID id, MultipartFile file) throws IOException {
+        Exercise exercise = exercisesDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
+        String url = (String) cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
+        exercise.setImageUrl(url);
+        exercisesDAO.save(exercise);
+        return exercise;
     }
 
 
