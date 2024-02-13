@@ -119,6 +119,12 @@ public class LinkRequestsService {
         RequestStatus requestStatus = RequestStatus.valueOf(status);
         return linkRequestsDAO.findByRequestStatusAndPatient(requestStatus,patient, pageable);
     }
+    public Page<LinkRequest> getPendingLinkRequestsByPhysiotherapist(String status,UUID id,int page, int size, String orderBy) {
+        Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
+        Physiotherapist physiotherapist = physiotherapistsService.findById(id);
+        RequestStatus requestStatus = RequestStatus.valueOf(status);
+        return linkRequestsDAO.findByRequestStatusAndPhysiotherapist(requestStatus,physiotherapist, pageable);
+    }
 
 
 }
