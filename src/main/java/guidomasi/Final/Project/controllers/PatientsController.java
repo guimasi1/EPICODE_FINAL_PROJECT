@@ -45,6 +45,8 @@ public class PatientsController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String orderBy) {
+ /*       System.out.println(id);
+        System.out.println(lastName);*/
         return patientsService.getPatientsByPhysiotherapist(id,lastName,page,size,orderBy);
     }
 

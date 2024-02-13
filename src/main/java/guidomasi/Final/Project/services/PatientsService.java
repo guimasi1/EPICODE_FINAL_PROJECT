@@ -46,9 +46,9 @@ public class PatientsService {
         return patientsDAO.findByLastNameContainingIgnoreCase(lastName,pageable);
     }
 
-    public Page<Patient> getPatientsByPhysiotherapist(UUID id,String lastName,int page, int size, String orderBy) {
+    public Page<Patient> getPatientsByPhysiotherapist(UUID id ,String lastName ,int page, int size, String orderBy) {
         Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
-        return patientsDAO.findAllByPhysiotherapistId(id, lastName ,pageable);
+        return patientsDAO.findAllByPhysiotherapistId(id, lastName, pageable);
     }
 
 
