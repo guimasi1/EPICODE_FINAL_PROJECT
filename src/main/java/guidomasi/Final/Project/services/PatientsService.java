@@ -48,6 +48,9 @@ public class PatientsService {
 
     public Page<Patient> getPatientsByPhysiotherapist(UUID id ,String lastName ,int page, int size, String orderBy) {
         Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
+        if(lastName == null) {
+            return patientsDAO.findAllByPhysio(id,pageable);
+        }
         return patientsDAO.findAllByPhysiotherapistId(id, lastName, pageable);
     }
 

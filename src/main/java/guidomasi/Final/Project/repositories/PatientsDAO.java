@@ -23,5 +23,9 @@ public interface PatientsDAO extends JpaRepository<Patient, UUID> {
             "(:lastName IS NULL OR LOWER(p.lastName) LIKE LOWER(CONCAT('%', :lastName, '%')))")
     Page<Patient> findAllByPhysiotherapistId(@Param("physiotherapistId") UUID physiotherapistId, @Param("lastName") String lastName, Pageable pageable);
 
+ @Query("SELECT p FROM Patient p JOIN p.physiotherapists pt WHERE pt.id = :physiotherapistId")
+    Page<Patient> findAllByPhysio(@Param("physiotherapistId") UUID physiotherapistId, Pageable pageable);
+
+
     Page<Patient> findByLastNameContainingIgnoreCase(String lastName, Pageable pageable);
 }
