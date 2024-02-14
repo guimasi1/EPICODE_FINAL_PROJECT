@@ -59,9 +59,9 @@ public class AuthService {
     }
 
     public Physiotherapist savePhysiotherapist(NewPhysiotherapistDTO body) {
-     /*   physiotherapistsDAO.findByEmail(body.email()).ifPresent(physiotherapist -> {
+        physiotherapistsDAO.findByEmail(body.email()).ifPresent(physiotherapist -> {
             throw new BadRequestException("Email " + body.email() + " già in uso");
-        });*/
+        });
 
         Physiotherapist newPhysiotherapist = new Physiotherapist();
         newPhysiotherapist.setEmail(body.email());
@@ -77,9 +77,9 @@ public class AuthService {
         return physiotherapistsDAO.save(newPhysiotherapist);
     }
     public Patient savePatient(NewPatientDTO body) {
-           /*   patientsDAO.findByEmail(body.email()).ifPresent(patient -> {
+              patientsDAO.findByEmail(body.email()).ifPresent(patient -> {
             throw new BadRequestException("Email " + body.email() + " già in uso");
-        });*/
+        });
         Patient patient = new Patient();
         patient.setEmail(body.email());
         patient.setRole(Role.PATIENT);

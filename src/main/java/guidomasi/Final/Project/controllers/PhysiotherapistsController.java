@@ -48,6 +48,14 @@ public class PhysiotherapistsController {
             @RequestParam(defaultValue = "id") String orderBy) {
         return physiotherapistsService.findBySpecialization(specialization,page, size, orderBy);
     }
+    @GetMapping("/byPatient/{patientId}")
+    public Page<Physiotherapist> getByPhysioId(
+            @PathVariable UUID patientId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String orderBy) {
+        return physiotherapistsService.getPhysiosByPatientId(patientId,page, size, orderBy);
+    }
 
     @PutMapping("/{id}")
     public Physiotherapist updateById(@PathVariable UUID id, @RequestBody NewPhysiotherapistDTO body, BindingResult validation) {

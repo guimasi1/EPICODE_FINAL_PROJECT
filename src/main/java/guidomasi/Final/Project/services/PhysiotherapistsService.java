@@ -65,6 +65,7 @@ public class PhysiotherapistsService {
         found.setLastName(body.lastName());
         found.setPhoneNumber(body.phoneNumber());
         found.setDateOfBirth(body.dateOfBirth());
+        found.setBio(body.bio());
         Specialization specialization = Specialization.valueOf(body.specialization().toUpperCase());
         found.setSpecialization(specialization);
         return physiotherapistsDAO.save(found);
@@ -77,6 +78,12 @@ public class PhysiotherapistsService {
          return physiotherapistsDAO.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(firstName,lastName,pageable);
 
     }
+
+    public Page<Physiotherapist> getPhysiosByPatientId(UUID patient_id, int page, int size, String orderBy) {
+        Pageable pageable = PageRequest.of(page,size,Sort.by(orderBy));
+        return physiotherapistsDAO.findPhysiosByPatientId(patient_id,pageable);
+    }
+
 
     public Page<Physiotherapist> findBySpecialization(String specializationStr,int page, int size, String orderBy) {
         Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));

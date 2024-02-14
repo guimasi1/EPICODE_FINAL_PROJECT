@@ -72,6 +72,7 @@ public class PatientsService {
         return patientsDAO.save(found);
     }
 
+
     public void deleteById(UUID uuid) {
         Patient found = this.findById(uuid);
         patientsDAO.delete(found);

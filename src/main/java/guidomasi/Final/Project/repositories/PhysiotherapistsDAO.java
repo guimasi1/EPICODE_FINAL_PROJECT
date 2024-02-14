@@ -21,4 +21,6 @@ public interface PhysiotherapistsDAO extends JpaRepository<Physiotherapist, UUID
 
     Page<Physiotherapist> findBySpecialization(Specialization specialization, Pageable pageable);
 
+    @Query("SELECT pt FROM Physiotherapist pt JOIN pt.patients p WHERE p.id = :patient_id")
+    Page<Physiotherapist> findPhysiosByPatientId(@Param("patient_id") UUID patientId,Pageable pageable);
 }
