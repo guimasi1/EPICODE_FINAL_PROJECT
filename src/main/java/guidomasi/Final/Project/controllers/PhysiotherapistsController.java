@@ -63,6 +63,11 @@ public class PhysiotherapistsController {
         physiotherapistsService.deleteById(id);
     }
 
+    @PostMapping("/{physiotherapist_id}/removePatient/{patient_id}")
+    public void removePatientFromPhysio(@PathVariable UUID physiotherapist_id, @PathVariable UUID patient_id) {
+        physiotherapistsService.removePatientFromPhysio(physiotherapist_id,patient_id);
+    }
+
     @GetMapping("/{id}")
     public Physiotherapist getPhysiotherapistById(@PathVariable UUID id) {
         return physiotherapistsService.findById(id);
@@ -77,5 +82,6 @@ public class PhysiotherapistsController {
     public Physiotherapist uploadExample(@PathVariable UUID id, @RequestParam("picture") MultipartFile body) throws IOException {
         return physiotherapistsService.uploadPicture(id, body);
     }
+
 
 }

@@ -60,6 +60,14 @@ public class LinkRequestsController {
             @RequestParam(defaultValue = "id") String orderBy) {
         return linkRequestsService.getPendingLinkRequestsByPatient("PENDING",id,page,size,orderBy);
     }
+    @GetMapping("/byPatientAndAccepted/{id}")
+    public Page<LinkRequest> getAcceptedRequestsByPatient(
+            @PathVariable UUID id,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String orderBy) {
+        return linkRequestsService.getPendingLinkRequestsByPatient("ACCEPTED",id,page,size,orderBy);
+    }
     @GetMapping("/byPhysioAndStatus/{id}")
     public Page<LinkRequest> getLinkRequestsByPhysioAndStatus(
             @PathVariable UUID id,

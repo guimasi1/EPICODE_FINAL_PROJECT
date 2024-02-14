@@ -19,7 +19,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class PhysiotherapistsService {
@@ -44,6 +46,15 @@ public class PhysiotherapistsService {
     public void deleteById(UUID uuid) {
         Physiotherapist found = this.findById(uuid);
         physiotherapistsDAO.delete(found);
+    }
+
+    public void removePatientFromPhysio(UUID physio_Id,UUID patient_id) {
+        Physiotherapist physiotherapist = this.findById(physio_Id);
+        List<Patient> patients = physiotherapist.getPatients();
+        List<Patient> updatedPatients = patients.stream().filter(patient -> !patient.getId().equals(patient_id))
+                .collect(Collectors.toList());
+        physiotherapist.setPatients(updatedPatients);
+        physiotherapistsDAO.save(physiotherapist);
     }
 
     public Physiotherapist findByIdAndUpdate(UUID uuid, NewPhysiotherapistDTO body) {
@@ -74,7 +85,6 @@ public class PhysiotherapistsService {
             specialization = Specialization.valueOf(specializationStr.toUpperCase());
         }
         return physiotherapistsDAO.findBySpecialization(specialization, pageable);
-
     }
     public Physiotherapist uploadPicture(UUID id, MultipartFile file) throws IOException {
         Physiotherapist physiotherapist = physiotherapistsDAO.findById(id).orElseThrow(() -> new NotFoundException(id));

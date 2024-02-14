@@ -20,4 +20,5 @@ public interface PhysiotherapistsDAO extends JpaRepository<Physiotherapist, UUID
     Page<Physiotherapist> findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(String firstName, String lastName, Pageable pageable);
 
     Page<Physiotherapist> findBySpecialization(Specialization specialization, Pageable pageable);
+
 }
