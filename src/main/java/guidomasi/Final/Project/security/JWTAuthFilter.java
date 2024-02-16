@@ -44,7 +44,6 @@ public class JWTAuthFilter extends OncePerRequestFilter {
             jwtTools.verifyToken(accessToken);
             String id = jwtTools.extractIdFromToken(accessToken);
             String role = jwtTools.extractRoleFromToken(accessToken);
-            System.out.println(role);
             if(role.equals(Role.PHYSIOTHERAPIST.name())){
                 Physiotherapist physiotherapist = physiotherapistsService.findById(UUID.fromString(id));
                 Authentication authentication = new UsernamePasswordAuthenticationToken(physiotherapist, null, physiotherapist.getAuthorities());

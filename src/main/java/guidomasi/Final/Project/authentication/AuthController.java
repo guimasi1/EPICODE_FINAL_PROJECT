@@ -1,5 +1,6 @@
 package guidomasi.Final.Project.authentication;
 
+import guidomasi.Final.Project.config.EmailSender;
 import guidomasi.Final.Project.entities.Patient;
 import guidomasi.Final.Project.entities.Physiotherapist;
 import guidomasi.Final.Project.exceptions.BadRequestException;
@@ -9,6 +10,7 @@ import guidomasi.Final.Project.payloads.physiotherapist.NewPhysiotherapistDTO;
 import guidomasi.Final.Project.payloads.physiotherapist.PhysiotherapistResponseDTO;
 import guidomasi.Final.Project.payloads.user.UserLoginDTO;
 import guidomasi.Final.Project.payloads.user.UserLoginResponseDTO;
+import lombok.ToString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -23,6 +25,8 @@ public class AuthController {
     @Autowired
     AuthService authService;
 
+    @Autowired
+    EmailSender emailSender;
 
     @PostMapping("/login/physiotherapist")
     public UserLoginResponseDTO login(@RequestBody UserLoginDTO body) {
@@ -45,7 +49,7 @@ public class AuthController {
             throw new BadRequestException("Ci sono errori nel payload!");
         } else {
             Physiotherapist newPhysiotherapist = authService.savePhysiotherapist(newPhysiotherapistPayload);
-
+            emailSender.sendRegistrationEmailToPhysio(newPhysiotherapistPayload.email());
             return new PhysiotherapistResponseDTO(newPhysiotherapist.getId());
         }
     }

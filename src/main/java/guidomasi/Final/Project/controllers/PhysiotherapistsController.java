@@ -1,9 +1,11 @@
 package guidomasi.Final.Project.controllers;
 
+import guidomasi.Final.Project.config.EmailSender;
 import guidomasi.Final.Project.entities.Patient;
 import guidomasi.Final.Project.entities.Physiotherapist;
 import guidomasi.Final.Project.enums.Specialization;
 import guidomasi.Final.Project.exceptions.BadRequestException;
+import guidomasi.Final.Project.payloads.EmailDTO;
 import guidomasi.Final.Project.payloads.patient.NewPatientDTO;
 import guidomasi.Final.Project.payloads.physiotherapist.FindPhysioByEmailDTO;
 import guidomasi.Final.Project.payloads.physiotherapist.NewPhysiotherapistDTO;
@@ -11,6 +13,7 @@ import guidomasi.Final.Project.services.PhysiotherapistsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +27,8 @@ import java.util.UUID;
 public class PhysiotherapistsController {
     @Autowired
     PhysiotherapistsService physiotherapistsService;
-
+    @Autowired
+    EmailSender emailSender;
     @GetMapping
     public Page<Physiotherapist> getPhysiotherapists(
 
@@ -96,6 +100,13 @@ public class PhysiotherapistsController {
     @PostMapping("/{id}/profilePicture")
     public Physiotherapist uploadExample(@PathVariable UUID id, @RequestParam("picture") MultipartFile body) throws IOException {
         return physiotherapistsService.uploadPicture(id, body);
+    }
+
+    @PostMapping("/sendmail/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public void sendMail(@PathVariable UUID id, @RequestBody EmailDTO emailDTO) {
+        Physiotherapist physiotherapist= physiotherapistsService.findById(id);
+        emailSender.sendEmail(physiotherapist, emailDTO);
     }
 
 

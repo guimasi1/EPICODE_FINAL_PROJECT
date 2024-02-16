@@ -3,6 +3,7 @@ package guidomasi.Final.Project.controllers;
 import guidomasi.Final.Project.entities.Exercise;
 import guidomasi.Final.Project.entities.ExerciseDetails;
 import guidomasi.Final.Project.entities.Patient;
+import guidomasi.Final.Project.enums.DifficultyLevel;
 import guidomasi.Final.Project.exceptions.BadRequestException;
 import guidomasi.Final.Project.payloads.exercise.ExerciseResponseDTO;
 import guidomasi.Final.Project.payloads.exercise.ExercisesPutDTO;
@@ -56,9 +57,9 @@ public class ExercisesController {
     }
     @GetMapping("/byParams")
     public Page<Exercise> getExercisesByParams(
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) String targetArea,
-            @RequestParam(required = false) String difficulty,
+            @RequestParam(value = "name",required = false) String name,
+            @RequestParam(value = "targetArea", required = false) String targetArea,
+            @RequestParam(value = "difficulty", required = false) DifficultyLevel difficulty,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String orderBy) {
