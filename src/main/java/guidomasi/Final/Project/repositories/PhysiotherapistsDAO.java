@@ -17,7 +17,9 @@ import java.util.UUID;
 public interface PhysiotherapistsDAO extends JpaRepository<Physiotherapist, UUID> {
     Optional<Physiotherapist> findByEmail(String email);
 
-    Page<Physiotherapist> findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(String firstName, String lastName, Pageable pageable);
+    @Query("SELECT pt FROM Physiotherapist pt WHERE (:lastName IS NULL OR pt.lastName LIKE LOWER(CONCAT( '%', :lastName, '%' ))) AND " +
+            "(:specialization IS NULL OR pt.specialization = :specialization)")
+    Page<Physiotherapist> findPhysiosByParams(@Param("lastName") String lastName,@Param("specialization") Specialization specialization, Pageable pageable);
 
     Page<Physiotherapist> findBySpecialization(Specialization specialization, Pageable pageable);
 

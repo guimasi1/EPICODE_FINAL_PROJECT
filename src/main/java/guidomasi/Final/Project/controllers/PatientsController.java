@@ -3,6 +3,7 @@ package guidomasi.Final.Project.controllers;
 
 import guidomasi.Final.Project.entities.Patient;
 import guidomasi.Final.Project.exceptions.BadRequestException;
+import guidomasi.Final.Project.payloads.patient.FindPatientByEmailDTO;
 import guidomasi.Final.Project.payloads.patient.NewPatientDTO;
 import guidomasi.Final.Project.services.PatientsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,11 @@ public class PatientsController {
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String id) {
         return patientsService.getPatientsByLastName(lastName,page,size,id);
+    }
+
+    @GetMapping("/findByEmail")
+    public Patient getPatientByEmail(@RequestBody FindPatientByEmailDTO body) {
+        return patientsService.findByEmail(body.email());
     }
 
     @GetMapping("/byPhysiotherapist/{id}")

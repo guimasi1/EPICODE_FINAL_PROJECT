@@ -2,8 +2,10 @@ package guidomasi.Final.Project.controllers;
 
 import guidomasi.Final.Project.entities.Patient;
 import guidomasi.Final.Project.entities.Physiotherapist;
+import guidomasi.Final.Project.enums.Specialization;
 import guidomasi.Final.Project.exceptions.BadRequestException;
 import guidomasi.Final.Project.payloads.patient.NewPatientDTO;
+import guidomasi.Final.Project.payloads.physiotherapist.FindPhysioByEmailDTO;
 import guidomasi.Final.Project.payloads.physiotherapist.NewPhysiotherapistDTO;
 import guidomasi.Final.Project.services.PhysiotherapistsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +33,19 @@ public class PhysiotherapistsController {
             @RequestParam(defaultValue = "id") String id) {
         return physiotherapistsService.getPhysiotherapists(page, size, id);
     }
-    @GetMapping("/byName")
+    @GetMapping("/findByEmail")
+    public Physiotherapist getPhysiotherapistByEmail(@RequestBody FindPhysioByEmailDTO body) {
+        return physiotherapistsService.findByEmail(body.email());
+    }
+
+    @GetMapping("/byParams")
     public Page<Physiotherapist> getByParams(
-            @RequestParam(required = false) String firstName,
-            @RequestParam(required = false) String lastName,
+            @RequestParam(value = "lastName", required = false) String lastName,
+            @RequestParam(value = "specialization", required = false) Specialization specialization,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String orderBy) {
-        return physiotherapistsService.getPhysiosByParams(firstName,lastName,page, size, orderBy);
+        return physiotherapistsService.findPhysiosByParams(lastName,specialization,page, size, orderBy);
     }
     @GetMapping("/bySpecialization")
     public Page<Physiotherapist> getBySpecialization(

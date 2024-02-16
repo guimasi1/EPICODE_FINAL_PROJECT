@@ -71,12 +71,9 @@ public class PhysiotherapistsService {
         return physiotherapistsDAO.save(found);
     }
 
-    public Page<Physiotherapist> getPhysiosByParams(String firstName, String lastName,
-                                                    int page, int size, String orderBy) {
-        Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
-
-         return physiotherapistsDAO.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(firstName,lastName,pageable);
-
+    public Page<Physiotherapist> findPhysiosByParams(String lastName, Specialization specialization, int page, int size, String orderBy) {
+        Pageable pageable = PageRequest.of(page,size,Sort.by(orderBy));
+        return physiotherapistsDAO.findPhysiosByParams(lastName, specialization, pageable);
     }
 
     public Page<Physiotherapist> getPhysiosByPatientId(UUID patient_id, int page, int size, String orderBy) {

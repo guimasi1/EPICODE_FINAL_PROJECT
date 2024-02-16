@@ -38,9 +38,18 @@ public class ExercisesService {
         Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
         return exercisesDAO.findAll(pageable);
     }
-  public Page<Exercise> getExercisesByName(String name,int page, int size, String orderBy) {
+    public Page<Exercise> getExercisesByName(String name,int page, int size, String orderBy) {
         Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
         return exercisesDAO.findByNameContainingIgnoreCase(name,pageable);
+    }
+
+    public Page<Exercise> getExercisesByParams(String name, String targetArea, String difficultyStr, int page, int size, String orderBy) {
+        Pageable pageable = PageRequest.of(page,size,Sort.by(orderBy));
+        DifficultyLevel difficultyLevel = null;
+        if (difficultyStr != null) {
+            difficultyLevel = DifficultyLevel.valueOf(difficultyStr.toUpperCase());
+        }
+        return exercisesDAO.findExercisesByParams(name,targetArea, difficultyLevel, pageable);
     }
 
     public Exercise saveExercise(NewExerciseDTO body) {
