@@ -25,7 +25,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @ToString
 @Table(name = "physiotherapists")
-@JsonIgnoreProperties({"password", "authorities", "enabled", "credentialsNonExpired", "accountNonExpired", "accountNonLocked"})
+@JsonIgnoreProperties({"password", "authorities", "enabled", "credentialsNonExpired", "accountNonExpired", "accountNonLocked", "username"})
 public class Physiotherapist implements UserDetails {
     @Id
     @GeneratedValue
@@ -56,11 +56,13 @@ public class Physiotherapist implements UserDetails {
     @JsonIgnore
     @ToString.Exclude
     private List<ExercisesAssignment> exercisesAssignments;
-
     @OneToMany(mappedBy = "physiotherapist", fetch = FetchType.LAZY)
     @JsonIgnore
     @ToString.Exclude
     private List<LinkRequest> linkRequests;
+    @OneToMany(mappedBy = "physiotherapist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<Review> reviews;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

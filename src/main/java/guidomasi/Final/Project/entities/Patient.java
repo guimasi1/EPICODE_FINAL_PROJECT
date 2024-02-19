@@ -24,7 +24,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @ToString
 @Table(name = "patients")
-@JsonIgnoreProperties({"password", "authorities", "enabled", "credentialsNonExpired", "accountNonExpired", "accountNonLocked"})
+@JsonIgnoreProperties({"password", "authorities", "enabled", "credentialsNonExpired", "accountNonExpired", "accountNonLocked","username"})
 public class Patient implements UserDetails {
     @Id
     @GeneratedValue
@@ -57,6 +57,11 @@ public class Patient implements UserDetails {
     @ToString.Exclude
     @JsonIgnore
     private List<LinkRequest> linkRequests;
+
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    @JsonIgnore
+    private List<Review> reviews;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(this.role.name()));
