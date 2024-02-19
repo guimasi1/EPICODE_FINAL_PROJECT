@@ -58,4 +58,9 @@ public class ReviewsController {
             @RequestParam(defaultValue = "id") String id) {
         return reviewsService.getReviewsByPhysiotherapist(physiotherapist_id,page,size,id);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable UUID id) {
+        reviewsService.deleteById(id);
+    }
 }

@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 
@@ -36,6 +37,7 @@ public class ReviewsService {
         review.setRating(body.rating());
         review.setPhysiotherapist(physiotherapist);
         review.setPatient(patient);
+        review.setDate(LocalDate.now());
         return reviewsDAO.save(review);
     }
     public Page<Review> getReviews(int page, int size, String orderBy) {

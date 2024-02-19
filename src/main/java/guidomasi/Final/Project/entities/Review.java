@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -20,10 +21,10 @@ public class Review {
     private UUID id;
     private String content;
     private int rating;
+    private LocalDate date;
     @ManyToOne
     @JoinColumn(name = "physiotherapist_id")
     @JsonIgnore
-
     private Physiotherapist physiotherapist;
     @ManyToOne
     @JoinColumn(name = "patient_id")
