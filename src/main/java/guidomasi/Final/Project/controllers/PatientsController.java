@@ -82,7 +82,7 @@ public class PatientsController {
     }
 
     @PostMapping("/{id}/profilePicture")
-    public Patient uploadExample(@PathVariable UUID id, @RequestParam("picture") MultipartFile body) throws IOException {
+    public String uploadExample(@PathVariable UUID id, @RequestParam("picture") MultipartFile body) throws IOException {
         return patientsService.uploadPicture(id, body);
     }
 

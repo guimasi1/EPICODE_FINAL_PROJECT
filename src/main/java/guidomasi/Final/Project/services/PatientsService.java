@@ -83,12 +83,12 @@ public class PatientsService {
         return patientsDAO.findByEmail(email).orElseThrow(() -> new NotFoundException("Patient with email " + email + " not found!"));
     }
 
-    public Patient uploadPicture(UUID id, MultipartFile file) throws IOException {
+    public String uploadPicture(UUID id, MultipartFile file) throws IOException {
         Patient patient = patientsDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
         String url = (String) cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
         patient.setProfilePictureUrl(url);
         patientsDAO.save(patient);
-        return patient;
+        return patient.getProfilePictureUrl();
     }
 
 
