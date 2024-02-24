@@ -98,7 +98,7 @@ public class PhysiotherapistsController {
     }
 
     @PostMapping("/{id}/profilePicture")
-    public Physiotherapist uploadExample(@PathVariable UUID id, @RequestParam("picture") MultipartFile body) throws IOException {
+    public String uploadExample(@PathVariable UUID id, @RequestParam("picture") MultipartFile body) throws IOException {
         return physiotherapistsService.uploadPicture(id, body);
     }
 

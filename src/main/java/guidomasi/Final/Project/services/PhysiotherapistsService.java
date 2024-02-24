@@ -90,12 +90,12 @@ public class PhysiotherapistsService {
         }
         return physiotherapistsDAO.findBySpecialization(specialization, pageable);
     }
-    public Physiotherapist uploadPicture(UUID id, MultipartFile file) throws IOException {
+    public String uploadPicture(UUID id, MultipartFile file) throws IOException {
         Physiotherapist physiotherapist = physiotherapistsDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
         String url = (String) cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
         physiotherapist.setProfilePictureUrl(url);
         physiotherapistsDAO.save(physiotherapist);
-        return physiotherapist;
+        return physiotherapist.getProfilePictureUrl();
     }
 
 }
