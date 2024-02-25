@@ -49,7 +49,7 @@ public class AuthService {
             throw new UnauthorizedException("Errore nelle credenziali");
         }
     }
- public String authenticatePatient(UserLoginDTO body) {
+    public String authenticatePatient(UserLoginDTO body) {
         Patient patient = patientsService.findByEmail(body.email());
         if(bCrypt.matches(body.password(),patient.getPassword())) {
             return jwtTools.createPatientToken(patient);
