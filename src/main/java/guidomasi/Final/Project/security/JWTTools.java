@@ -1,5 +1,6 @@
 package guidomasi.Final.Project.security;
 
+import guidomasi.Final.Project.entities.Admin;
 import guidomasi.Final.Project.entities.Patient;
 import guidomasi.Final.Project.entities.Physiotherapist;
 import guidomasi.Final.Project.exceptions.UnauthorizedException;
@@ -32,6 +33,15 @@ public class JWTTools {
     public String createPatientToken(Patient patient) {
         String role = String.valueOf(patient.getRole());
         return  Jwts.builder().subject(String.valueOf(patient.getId()))
+                .claim("role", role)
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7))
+                .signWith(Keys.hmacShaKeyFor(secret.getBytes()))
+                .compact();
+    }
+    public String createAdminToken(Admin admin) {
+        String role = String.valueOf(admin.getRole());
+        return  Jwts.builder().subject(String.valueOf(admin.getId()))
                 .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7))

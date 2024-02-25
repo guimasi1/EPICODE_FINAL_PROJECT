@@ -1,16 +1,18 @@
 package guidomasi.Final.Project.authentication;
 
 import guidomasi.Final.Project.config.EmailSender;
+import guidomasi.Final.Project.entities.Admin;
 import guidomasi.Final.Project.entities.Patient;
 import guidomasi.Final.Project.entities.Physiotherapist;
 import guidomasi.Final.Project.exceptions.BadRequestException;
+import guidomasi.Final.Project.payloads.admin.NewAdminTestDTO;
+import guidomasi.Final.Project.payloads.admin.ResponseAdminDTO;
 import guidomasi.Final.Project.payloads.patient.NewPatientDTO;
 import guidomasi.Final.Project.payloads.patient.PatientsResponseDTO;
 import guidomasi.Final.Project.payloads.physiotherapist.NewPhysiotherapistDTO;
 import guidomasi.Final.Project.payloads.physiotherapist.PhysiotherapistResponseDTO;
 import guidomasi.Final.Project.payloads.user.UserLoginDTO;
 import guidomasi.Final.Project.payloads.user.UserLoginResponseDTO;
-import lombok.ToString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -36,6 +38,11 @@ public class AuthController {
     @PostMapping("/login/patient")
     public UserLoginResponseDTO loginPatient(@RequestBody UserLoginDTO body) {
         String token = authService.authenticatePatient(body);
+        return new UserLoginResponseDTO(token);
+    }
+    @PostMapping("/login/admin")
+    public UserLoginResponseDTO loginAdmin(@RequestBody UserLoginDTO body) {
+        String token = authService.authenticateAdmin(body);
         return new UserLoginResponseDTO(token);
     }
 
@@ -66,5 +73,19 @@ public class AuthController {
             return new PatientsResponseDTO(newPatient.getId());
         }
     }
+    @PostMapping("/register/admin")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseAdminDTO createAdmin(@RequestBody @Validated NewAdminTestDTO newAdminDTO, BindingResult validation) {
+        System.out.println(validation);
+        if (validation.hasErrors()) {
+            System.out.println(validation.getAllErrors());
+            throw new BadRequestException("Ci sono errori nel payload!");
+        } else {
+            Admin newAdmin = authService.saveAdmin(newAdminDTO);
+
+            return new ResponseAdminDTO(newAdmin.getId());
+        }
+    }
+
 
 }

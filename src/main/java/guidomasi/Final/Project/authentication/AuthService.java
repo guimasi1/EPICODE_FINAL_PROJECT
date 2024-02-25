@@ -1,5 +1,6 @@
 package guidomasi.Final.Project.authentication;
 
+import guidomasi.Final.Project.entities.Admin;
 import guidomasi.Final.Project.entities.Patient;
 import guidomasi.Final.Project.entities.Physiotherapist;
 import guidomasi.Final.Project.enums.Gender;
@@ -7,12 +8,15 @@ import guidomasi.Final.Project.enums.Role;
 import guidomasi.Final.Project.enums.Specialization;
 import guidomasi.Final.Project.exceptions.BadRequestException;
 import guidomasi.Final.Project.exceptions.UnauthorizedException;
+import guidomasi.Final.Project.payloads.admin.NewAdminTestDTO;
 import guidomasi.Final.Project.payloads.patient.NewPatientDTO;
 import guidomasi.Final.Project.payloads.physiotherapist.NewPhysiotherapistDTO;
 import guidomasi.Final.Project.payloads.user.UserLoginDTO;
+import guidomasi.Final.Project.repositories.AdminsDAO;
 import guidomasi.Final.Project.repositories.PatientsDAO;
 import guidomasi.Final.Project.repositories.PhysiotherapistsDAO;
 import guidomasi.Final.Project.security.JWTTools;
+import guidomasi.Final.Project.services.AdminsService;
 import guidomasi.Final.Project.services.PatientsService;
 import guidomasi.Final.Project.services.PhysiotherapistsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +34,15 @@ public class AuthService {
     private PatientsService patientsService;
     @Autowired
     private PhysiotherapistsDAO physiotherapistsDAO;
-
     @Autowired
     private PatientsDAO patientsDAO;
+
+    @Autowired
+    private AdminsService adminsService;
+
+    @Autowired
+    private AdminsDAO adminsDAO;
+
     @Autowired
     private JWTTools jwtTools;
 
@@ -57,6 +67,15 @@ public class AuthService {
             throw new UnauthorizedException("Errore nelle credenziali");
         }
     }
+    public String authenticateAdmin(UserLoginDTO body) {
+        Admin admin = adminsService.findByEmail(body.email());
+        if(bCrypt.matches(body.password(),admin.getPassword2())) {
+            return jwtTools.createAdminToken(admin);
+        } else {
+            System.out.println(body.password());
+            throw new UnauthorizedException("Errore nelle credenziali");
+        }
+    }
 
     public Physiotherapist savePhysiotherapist(NewPhysiotherapistDTO body) {
         physiotherapistsDAO.findByEmail(body.email()).ifPresent(physiotherapist -> {
@@ -66,7 +85,6 @@ public class AuthService {
         Physiotherapist newPhysiotherapist = new Physiotherapist();
         newPhysiotherapist.setEmail(body.email());
         newPhysiotherapist.setRole(Role.PHYSIOTHERAPIST);
-        newPhysiotherapist.setPassword(bCrypt.encode(body.password()));
         newPhysiotherapist.setFirstName(body.firstName());
         newPhysiotherapist.setLastName(body.lastName());
         newPhysiotherapist.setPhoneNumber(body.phoneNumber());
@@ -92,6 +110,14 @@ public class AuthService {
         patient.setGender(gender);
         patient.setRegistrationDate(LocalDate.now());
         return patientsDAO.save(patient);
+    }
+    public Admin saveAdmin(NewAdminTestDTO body) {
+              adminsDAO.findByEmail(body.email()).ifPresent(admin -> {
+            throw new BadRequestException("Email " + body.email() + " già in uso");
+        });
+        Admin newAdmin = new Admin(body.email(), bCrypt.encode(body.password2()), body.firstName(), body.lastName(),Role.ADMIN);
+
+        return adminsDAO.save(newAdmin);
     }
 
 }

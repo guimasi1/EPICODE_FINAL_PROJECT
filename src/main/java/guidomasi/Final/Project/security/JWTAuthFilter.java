@@ -1,9 +1,11 @@
 package guidomasi.Final.Project.security;
 
+import guidomasi.Final.Project.entities.Admin;
 import guidomasi.Final.Project.entities.Patient;
 import guidomasi.Final.Project.entities.Physiotherapist;
 import guidomasi.Final.Project.enums.Role;
 import guidomasi.Final.Project.exceptions.UnauthorizedException;
+import guidomasi.Final.Project.services.AdminsService;
 import guidomasi.Final.Project.services.PatientsService;
 import guidomasi.Final.Project.services.PhysiotherapistsService;
 import io.jsonwebtoken.Claims;
@@ -32,6 +34,8 @@ public class JWTAuthFilter extends OncePerRequestFilter {
     private PhysiotherapistsService physiotherapistsService;
 
     @Autowired
+    private AdminsService adminsService;
+    @Autowired
     private PatientsService patientsService;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -44,7 +48,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
             jwtTools.verifyToken(accessToken);
             String id = jwtTools.extractIdFromToken(accessToken);
             String role = jwtTools.extractRoleFromToken(accessToken);
-            if(role.equals(Role.PHYSIOTHERAPIST.name())){
+            if (role.equals(Role.PHYSIOTHERAPIST.name())) {
                 Physiotherapist physiotherapist = physiotherapistsService.findById(UUID.fromString(id));
                 Authentication authentication = new UsernamePasswordAuthenticationToken(physiotherapist, null, physiotherapist.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -52,6 +56,11 @@ public class JWTAuthFilter extends OncePerRequestFilter {
             } else if (role.equals(Role.PATIENT.name())) {
                 Patient patient = patientsService.findById(UUID.fromString(id));
                 Authentication authentication = new UsernamePasswordAuthenticationToken(patient, null, patient.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                filterChain.doFilter(request, response);
+            } else if (role.equals(Role.ADMIN.name())) {
+                Admin admin = adminsService.findById(UUID.fromString(id));
+                Authentication authentication = new UsernamePasswordAuthenticationToken(admin, null, admin.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 filterChain.doFilter(request, response);
             }
