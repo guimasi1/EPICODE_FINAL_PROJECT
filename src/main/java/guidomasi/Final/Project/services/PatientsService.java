@@ -54,6 +54,10 @@ public class PatientsService {
         return patientsDAO.findAllByPhysiotherapistId(id, lastName, pageable);
     }
 
+    public long getTotalPatientCount() {
+        return patientsDAO.count();
+    }
+
 
     public Patient findById(UUID id) {
         return patientsDAO.findById(id).orElseThrow(() -> new NotFoundException(id));

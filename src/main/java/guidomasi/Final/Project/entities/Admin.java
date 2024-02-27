@@ -1,5 +1,6 @@
 package guidomasi.Final.Project.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import guidomasi.Final.Project.enums.Role;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,6 +22,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @ToString
 @Table(name = "admins")
+@JsonIgnoreProperties({"password", "authorities", "enabled", "credentialsNonExpired", "accountNonExpired", "accountNonLocked", "username","password2"})
 public class Admin implements UserDetails {
     @Id
     @GeneratedValue

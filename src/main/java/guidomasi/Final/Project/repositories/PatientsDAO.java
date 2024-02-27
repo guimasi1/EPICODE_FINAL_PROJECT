@@ -28,4 +28,6 @@ public interface PatientsDAO extends JpaRepository<Patient, UUID> {
 
 
     Page<Patient> findByLastNameContainingIgnoreCase(String lastName, Pageable pageable);
+
+
 }

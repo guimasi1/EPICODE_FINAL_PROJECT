@@ -108,6 +108,9 @@ public class PhysiotherapistsController {
         Physiotherapist physiotherapist= physiotherapistsService.findById(id);
         emailSender.sendEmail(physiotherapist, emailDTO);
     }
-
+    @GetMapping("/count")
+    public Long countHowManyPhysios() {
+        return physiotherapistsService.getTotalPhysiosCount();
+    }
 
 }

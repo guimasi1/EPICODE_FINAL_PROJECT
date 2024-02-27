@@ -26,8 +26,8 @@ public class PatientsController {
     public Page<Patient> getPatients(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "id") String id) {
-        return patientsService.getPatients(page,size,id);
+            @RequestParam(defaultValue = "id") String orderBy) {
+        return patientsService.getPatients(page,size,orderBy);
     }
 
     @GetMapping("/byLastName")
@@ -35,8 +35,8 @@ public class PatientsController {
             @RequestParam(required = false) String lastName,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "id") String id) {
-        return patientsService.getPatientsByLastName(lastName,page,size,id);
+            @RequestParam(defaultValue = "id") String orderBy) {
+        return patientsService.getPatientsByLastName(lastName,page,size,orderBy);
     }
 
     @GetMapping("/findByEmail")
@@ -84,6 +84,11 @@ public class PatientsController {
     @PostMapping("/{id}/profilePicture")
     public String uploadExample(@PathVariable UUID id, @RequestParam("picture") MultipartFile body) throws IOException {
         return patientsService.uploadPicture(id, body);
+    }
+
+    @GetMapping("/count")
+    public Long countHowManyPatients() {
+        return patientsService.getTotalPatientCount();
     }
 
 }

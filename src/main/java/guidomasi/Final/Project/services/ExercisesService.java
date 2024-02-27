@@ -86,6 +86,14 @@ public class ExercisesService {
         exercisesDAO.save(exercise);
         return exercise;
     }
-
+    public long getTotalExercisesCount() {
+        return exercisesDAO.count();
+    }
+    public long getTotalByTargetArea(String targetArea) {
+        return exercisesDAO.countByTargetArea(targetArea);
+    }
+    public long getTotalByDifficultyLevel(DifficultyLevel difficulty) {
+        return exercisesDAO.countByDifficultyLevel(difficulty);
+    }
 
 }

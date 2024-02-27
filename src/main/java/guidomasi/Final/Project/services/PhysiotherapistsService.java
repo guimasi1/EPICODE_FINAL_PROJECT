@@ -98,4 +98,8 @@ public class PhysiotherapistsService {
         return physiotherapist.getProfilePictureUrl();
     }
 
+    public long getTotalPhysiosCount() {
+        return physiotherapistsDAO.count();
+    }
+
 }

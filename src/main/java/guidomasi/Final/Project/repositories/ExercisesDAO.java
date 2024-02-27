@@ -25,5 +25,6 @@ public interface ExercisesDAO extends JpaRepository<Exercise, UUID> {
                                          @Param("difficulty") DifficultyLevel difficultyLevel,
                                          Pageable pageable);
 
-
+    Long countByTargetArea(String targetArea);
+    Long countByDifficultyLevel(DifficultyLevel difficultyLevel);
 }

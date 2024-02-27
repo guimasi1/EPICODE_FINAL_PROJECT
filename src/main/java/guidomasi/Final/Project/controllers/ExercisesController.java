@@ -88,4 +88,18 @@ public class ExercisesController {
     public Exercise uploadExample(@PathVariable UUID id, @RequestParam("picture") MultipartFile body) throws IOException {
         return exercisesService.uploadPicture(id, body);
     }
+
+    @GetMapping("/count")
+    public Long countHowManyExercises() {
+        return exercisesService.getTotalExercisesCount();
+    }
+
+    @GetMapping("/countByTargetArea")
+    public long countByTargetArea(@RequestParam String targetArea) {
+        return exercisesService.getTotalByTargetArea(targetArea);
+    }
+    @GetMapping("/countByDifficulty")
+    public long countByDifficulty(@RequestParam DifficultyLevel difficulty) {
+        return exercisesService.getTotalByDifficultyLevel(difficulty);
+    }
 }
